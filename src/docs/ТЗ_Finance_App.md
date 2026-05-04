@@ -8,11 +8,11 @@
 2. [Стек технологий](#2-стек-технологий)
 3. [Архитектура — Feature-Sliced Design (FSD)](#3-архитектура--feature-sliced-design-fsd)
 4. [Модули и фичи](#4-модули-и-фичи)
-   - 4.5. [Архитектурные альтернативы: SSR / SSG / ISR / PPR](#45-архитектурные-альтернативы-ssr--ssg--isr--ppr)
-   - 4.6. [Этапы разработки и MVP](#46-этапы-разработки-и-mvp)
+    - 4.5. [Архитектурные альтернативы: SSR / SSG / ISR / PPR](#45-архитектурные-альтернативы-ssr--ssg--isr--ppr)
+    - 4.6. [Этапы разработки и MVP](#46-этапы-разработки-и-mvp)
 5. [Модели данных (TypeScript)](#5-модели-данных-typescript)
 6. [Маршрутизация (Vue Router)](#6-маршрутизация-vue-router)
-   - 6.5. [API Specification](#65-api-specification)
+    - 6.5. [API Specification](#65-api-specification)
 7. [Pinia Stores](#7-pinia-stores)
 8. [Composables (практические задачи)](#8-composables-практические-задачи-с-собесов)
 9. [UI-компоненты](#9-ui-компоненты-практические-задачи-с-собесов)
@@ -43,7 +43,7 @@
 
 **Монетизация (freemium):**
 
--   Бесплатный план: трекер транзакций, базовые категории, 1 валюта, дашборд с простыми графиками
+-   Бесплатный план: трекер транзакций, базовые категории, 1 валюта рубли, дашборд с простыми графиками
 -   Платная подписка: расширенная аналитика, мультивалютность, семейный бюджет (несколько участников), импорт выписок, экспорт отчётов в PDF/CSV
 
 **Целевая аудитория:**
@@ -433,22 +433,22 @@ export async function getRateFromAnySource(symbol: string): Promise<number> {
 
 **Темы собесов:**
 
-| Тема                                | Где реализована                                                                                       |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| WebSocket                           | Реалтайм-обновление курсов валют                                                                      |
-| WebRTC vs WebSocket                 | Обсуждение: WebSocket для данных, WebRTC для P2P (здесь не нужен)                                     |
-| `Map` vs объект                     | `Map<string, number>` для хранения курсов — ключи-строки, частая итерация                             |
-| `WeakMap` / `WeakSet`               | Кеш конвертаций: WeakMap для привязки к объектам транзакций (GC-friendly)                             |
-| `AbortController`                   | Отмена предыдущего запроса курсов при новом запросе                                                   |
-| `fetchWithRetry`                    | Retry при неудаче запроса к API курсов (3 попытки с exponential backoff)                              |
-| CORS, preflight, OPTIONS            | API курсов на внешнем домене — CORS headers, preflight для POST                                       |
-| HTTP запрос: состав                 | Метод, URL, headers, body — при запросе курсов                                                        |
-| `async` / `await`                   | Асинхронные запросы к API курсов                                                                      |
-| Каррирование                        | `createConverter(baseCurrency)(amount, targetCurrency)` — каррированная функция конвертации           |
-| `&#124;&#124;` vs `??`              | `rate ?? 1` — fallback для курса (0 — валидный курс, `&#124;&#124;` отбросил бы его как falsy)        |
+| Тема                                | Где реализована                                                                                            |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| WebSocket                           | Реалтайм-обновление курсов валют                                                                           |
+| WebRTC vs WebSocket                 | Обсуждение: WebSocket для данных, WebRTC для P2P (здесь не нужен)                                          |
+| `Map` vs объект                     | `Map<string, number>` для хранения курсов — ключи-строки, частая итерация                                  |
+| `WeakMap` / `WeakSet`               | Кеш конвертаций: WeakMap для привязки к объектам транзакций (GC-friendly)                                  |
+| `AbortController`                   | Отмена предыдущего запроса курсов при новом запросе                                                        |
+| `fetchWithRetry`                    | Retry при неудаче запроса к API курсов (3 попытки с exponential backoff)                                   |
+| CORS, preflight, OPTIONS            | API курсов на внешнем домене — CORS headers, preflight для POST                                            |
+| HTTP запрос: состав                 | Метод, URL, headers, body — при запросе курсов                                                             |
+| `async` / `await`                   | Асинхронные запросы к API курсов                                                                           |
+| Каррирование                        | `createConverter(baseCurrency)(amount, targetCurrency)` — каррированная функция конвертации                |
+| `&#124;&#124;` vs `??`              | `rate ?? 1` — fallback для курса (0 — валидный курс, `&#124;&#124;` отбросил бы его как falsy)             |
 | `Promise.any` / `Promise.finally`   | `Promise.any([cb, fallbackApi, cache])` — гонка источников курсов; `finally` — гарантированный hide loader |
-| Контекст, `this`, `bind/call/apply` | Привязка контекста в callback WebSocket                                                               |
-| Виды функций                        | Arrow vs function declaration в обработчиках WebSocket (различие в this)                              |
+| Контекст, `this`, `bind/call/apply` | Привязка контекста в callback WebSocket                                                                    |
+| Виды функций                        | Arrow vs function declaration в обработчиках WebSocket (различие в this)                                   |
 
 ---
 
@@ -569,16 +569,12 @@ export const DynamicChart = defineComponent({
 	},
 	setup(props) {
 		return () =>
-			h(
-				'div',
-				{ class: ['chart', `chart--${props.type}`], role: 'img' },
-				[
-					h('h3', { class: 'chart__title' }, `Отчёт: ${props.type}`),
-					...props.data.map((point, i) =>
-						h('span', { key: i, class: 'chart__point' }, String(point)),
-					),
-				],
-			);
+			h('div', { class: ['chart', `chart--${props.type}`], role: 'img' }, [
+				h('h3', { class: 'chart__title' }, `Отчёт: ${props.type}`),
+				...props.data.map((point, i) =>
+					h('span', { key: i, class: 'chart__point' }, String(point)),
+				),
+			]);
 	},
 });
 ```
@@ -739,12 +735,12 @@ FinTrack стартует как **SPA + PWA**, но в плане роста е
 
 ### Сценарии и применимость в FinTrack
 
-| Подход | Что это | Применение в FinTrack | Минусы |
-|--------|---------|------------------------|--------|
-| **SSR** (Nuxt 3) | Рендер HTML на сервере при каждом запросе | Лендинг `/` и страница `/pricing` — для SEO и быстрого FCP неавторизованным пользователям | Нагрузка на сервер, кеш-инвалидации |
-| **SSG** (Static Site Generation) | Pre-render во время билда, отдача статики | Страницы блога/документации, маркетинговые лендинги | Не подходит для часто меняющихся данных |
-| **ISR** (Incremental Static Regeneration) | Статика + автоматический rebuild по таймеру/тегу | Публичный виджет курсов валют (`/widget/rates`) — обновление каждые 5 минут | Stale данные между ревалидациями |
-| **PPR** (Partial Pre-Rendering) | Гибрид: статический shell + стриминг динамических островков | Дашборд: статичный layout + стриминг данных через `<Suspense>` | Сложность инфраструктуры, новизна |
+| Подход                                    | Что это                                                     | Применение в FinTrack                                                                     | Минусы                                  |
+| ----------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------- |
+| **SSR** (Nuxt 3)                          | Рендер HTML на сервере при каждом запросе                   | Лендинг `/` и страница `/pricing` — для SEO и быстрого FCP неавторизованным пользователям | Нагрузка на сервер, кеш-инвалидации     |
+| **SSG** (Static Site Generation)          | Pre-render во время билда, отдача статики                   | Страницы блога/документации, маркетинговые лендинги                                       | Не подходит для часто меняющихся данных |
+| **ISR** (Incremental Static Regeneration) | Статика + автоматический rebuild по таймеру/тегу            | Публичный виджет курсов валют (`/widget/rates`) — обновление каждые 5 минут               | Stale данные между ревалидациями        |
+| **PPR** (Partial Pre-Rendering)           | Гибрид: статический shell + стриминг динамических островков | Дашборд: статичный layout + стриминг данных через `<Suspense>`                            | Сложность инфраструктуры, новизна       |
 
 ### Hydration: как Vue превращает серверный HTML в живое приложение
 
@@ -779,23 +775,23 @@ FinTrack стартует как **SPA + PWA**, но в плане роста е
 
 ### Vue 2 vs Vue 3 под капотом
 
-| Аспект | Vue 2 | Vue 3 |
-|--------|-------|-------|
+| Аспект       | Vue 2                                                     | Vue 3                                                                 |
+| ------------ | --------------------------------------------------------- | --------------------------------------------------------------------- |
 | Реактивность | `Object.defineProperty` (геттеры/сеттеры на каждом ключе) | `Proxy` (оборачивает весь объект, ловит `get/set/has/deleteProperty`) |
-| Новые ключи | Нужен `Vue.set` | Работают из коробки (Proxy ловит присваивание) |
-| Массивы | Перехват методов через прототипный override | Proxy перехватывает индексацию + length |
-| Bundle | Реактивность зашита в core | Tree-shakeable: импортируешь только `ref`/`reactive` |
-| TypeScript | Декораторы, ограниченная inference | Полный DX, `<script setup>`, generics в компонентах |
+| Новые ключи  | Нужен `Vue.set`                                           | Работают из коробки (Proxy ловит присваивание)                        |
+| Массивы      | Перехват методов через прототипный override               | Proxy перехватывает индексацию + length                               |
+| Bundle       | Реактивность зашита в core                                | Tree-shakeable: импортируешь только `ref`/`reactive`                  |
+| TypeScript   | Декораторы, ограниченная inference                        | Полный DX, `<script setup>`, generics в компонентах                   |
 
 **Покрытие тем:**
 
-| Тема                     | Где                                              |
-| ------------------------ | ------------------------------------------------ |
-| SSR (Nuxt)               | Этот раздел (применимость в FinTrack)            |
-| SSG / ISR / PPR          | Этот раздел (таблица сценариев)                  |
-| Hydration                | Этот раздел (mismatch + причины)                 |
-| `<ClientOnly>`           | Этот раздел (виджеты с window-зависимостями)     |
-| Vue 2 vs Vue 3 под капотом | Этот раздел (Proxy vs defineProperty)          |
+| Тема                       | Где                                          |
+| -------------------------- | -------------------------------------------- |
+| SSR (Nuxt)                 | Этот раздел (применимость в FinTrack)        |
+| SSG / ISR / PPR            | Этот раздел (таблица сценариев)              |
+| Hydration                  | Этот раздел (mismatch + причины)             |
+| `<ClientOnly>`             | Этот раздел (виджеты с window-зависимостями) |
+| Vue 2 vs Vue 3 под капотом | Этот раздел (Proxy vs defineProperty)        |
 
 ---
 
@@ -807,14 +803,14 @@ FinTrack стартует как **SPA + PWA**, но в плане роста е
 
 **Цель:** запустить рабочее приложение с базовым CRUD транзакций, на котором можно показать ключевые темы Vue 3 и TS на собесе.
 
-| Модуль | Что делаем | Темы собеса покрыты |
-|--------|-----------|---------------------|
-| Авторизация (упрощённая) | Логин по email/password, JWT в памяти, mock refresh | guards, replace vs push, замыкания |
-| Транзакции (CRUD) | Создание/редактирование/удаление, фильтры, поиск с debounce | Composition API, computed, watch, debounce, key в v-for |
-| Дашборд (простой) | Виджеты баланса и расходов, без графиков | Suspense, KeepAlive, computed, shallowRef |
-| Категории | Плоский список + CRUD (без дерева) | provide/inject, slots |
-| UI-kit (минимум) | `AppButton`, `AppInput`, `AppModal`, `AppTabs` | Teleport, defineModel, fallthrough attrs |
-| Архитектура | Полная структура FSD, TypeScript strict | FSD, SOLID, TS generics |
+| Модуль                   | Что делаем                                                  | Темы собеса покрыты                                     |
+| ------------------------ | ----------------------------------------------------------- | ------------------------------------------------------- |
+| Авторизация (упрощённая) | Логин по email/password, JWT в памяти, mock refresh         | guards, replace vs push, замыкания                      |
+| Транзакции (CRUD)        | Создание/редактирование/удаление, фильтры, поиск с debounce | Composition API, computed, watch, debounce, key в v-for |
+| Дашборд (простой)        | Виджеты баланса и расходов, без графиков                    | Suspense, KeepAlive, computed, shallowRef               |
+| Категории                | Плоский список + CRUD (без дерева)                          | provide/inject, slots                                   |
+| UI-kit (минимум)         | `AppButton`, `AppInput`, `AppModal`, `AppTabs`              | Teleport, defineModel, fallthrough attrs                |
+| Архитектура              | Полная структура FSD, TypeScript strict                     | FSD, SOLID, TS generics                                 |
 
 **Definition of Done MVP:**
 
@@ -825,25 +821,25 @@ FinTrack стартует как **SPA + PWA**, но в плане роста е
 
 ### Фаза 2 — расширение (+ 2 недели)
 
-| Модуль | Что добавляется |
-|--------|-----------------|
-| Бюджеты и лимиты | Прогресс-бары, SSE-уведомления, инкрементальный пересчёт |
-| Мультивалютность | WebSocket-курсы, `Promise.any` по нескольким источникам, `useCurrency` |
-| Категории — дерево | Рекурсивный компонент, drag&drop |
+| Модуль              | Что добавляется                                                            |
+| ------------------- | -------------------------------------------------------------------------- |
+| Бюджеты и лимиты    | Прогресс-бары, SSE-уведомления, инкрементальный пересчёт                   |
+| Мультивалютность    | WebSocket-курсы, `Promise.any` по нескольким источникам, `useCurrency`     |
+| Категории — дерево  | Рекурсивный компонент, drag&drop                                           |
 | UI-kit (расширение) | `AppToast` (TransitionGroup), `InfiniteScroll`, `VirtualScroll` с `v-memo` |
-| Графики на дашборде | Chart.js через `defineAsyncComponent`, lazy chunks |
+| Графики на дашборде | Chart.js через `defineAsyncComponent`, lazy chunks                         |
 
 ### Фаза 3 — production-ready (+ 2 недели)
 
-| Модуль | Что добавляется |
-|--------|-----------------|
-| PWA + оффлайн | Service Worker, IndexedDB queue, background sync |
-| Импорт CSV/XLSX | Web Worker, генераторы для чанков, drag&drop |
-| Отчёты | ECharts, экспорт в PDF/CSV, `requestIdleCallback` для фоновой генерации |
-| Тестирование | Integration-тесты (Pinia + API mock), e2e (Playwright/Cypress) |
-| CI/CD | GitHub Actions, Docker multi-stage, nginx-deploy |
-| Мониторинг | Sentry, web-vitals → analytics endpoint, Lighthouse CI |
-| Безопасность | CSP, CSRF tokens, XSS-санитайзинг при импорте |
+| Модуль          | Что добавляется                                                         |
+| --------------- | ----------------------------------------------------------------------- |
+| PWA + оффлайн   | Service Worker, IndexedDB queue, background sync                        |
+| Импорт CSV/XLSX | Web Worker, генераторы для чанков, drag&drop                            |
+| Отчёты          | ECharts, экспорт в PDF/CSV, `requestIdleCallback` для фоновой генерации |
+| Тестирование    | Integration-тесты (Pinia + API mock), e2e (Playwright/Cypress)          |
+| CI/CD           | GitHub Actions, Docker multi-stage, nginx-deploy                        |
+| Мониторинг      | Sentry, web-vitals → analytics endpoint, Lighthouse CI                  |
+| Безопасность    | CSP, CSRF tokens, XSS-санитайзинг при импорте                           |
 
 ### Что вне scope (out of MVP)
 
@@ -853,12 +849,12 @@ FinTrack стартует как **SPA + PWA**, но в плане роста е
 
 ### Риски и митигации
 
-| Риск | Митигация |
-|------|-----------|
-| Web Worker не нужен для маленьких CSV → выглядит overengineering | Делаем порог: < 1 MB парсим в main thread, ≥ 1 MB — в Worker |
-| WebSocket для курсов недоступен в проде (нет бэкенда) | Mock-сервер на `ws` пакете в dev; в проде fallback на polling |
-| SSE-нотификации требуют long-lived соединения, проблематично за nginx без правильной настройки | `proxy_buffering off` + `proxy_read_timeout` в nginx.conf |
-| Bundle растёт из-за Chart.js + ECharts | Динамические импорты, code splitting per route, tree-shaking |
+| Риск                                                                                           | Митигация                                                     |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Web Worker не нужен для маленьких CSV → выглядит overengineering                               | Делаем порог: < 1 MB парсим в main thread, ≥ 1 MB — в Worker  |
+| WebSocket для курсов недоступен в проде (нет бэкенда)                                          | Mock-сервер на `ws` пакете в dev; в проде fallback на polling |
+| SSE-нотификации требуют long-lived соединения, проблематично за nginx без правильной настройки | `proxy_buffering off` + `proxy_read_timeout` в nginx.conf     |
+| Bundle растёт из-за Chart.js + ECharts                                                         | Динамические импорты, code splitting per route, tree-shaking  |
 
 ---
 
@@ -1210,7 +1206,13 @@ const breadcrumbs = computed(() =>
 -   **Content-Type:** `application/json` для тела, `multipart/form-data` для импорта файлов.
 -   **Формат ошибки:**
     ```json
-    { "error": { "code": "VALIDATION_FAILED", "message": "amount must be positive", "fields": { "amount": "min" } } }
+    {
+    	"error": {
+    		"code": "VALIDATION_FAILED",
+    		"message": "amount must be positive",
+    		"fields": { "amount": "min" }
+    	}
+    }
     ```
 -   **Status codes:** `200` OK, `201` Created, `204` No Content, `400` Validation, `401` Unauthorized, `403` Forbidden, `404` Not Found, `409` Conflict, `422` Unprocessable, `429` Rate Limit, `500` Server Error.
 -   **Идемпотентность:** для оффлайн-sync клиент отправляет `Idempotency-Key: <uuid>` — сервер дедуплицирует по нему.
@@ -1218,42 +1220,42 @@ const breadcrumbs = computed(() =>
 
 ### Auth
 
-| Метод | Эндпоинт | Запрос | Ответ |
-|-------|----------|--------|-------|
-| POST | `/auth/register` | `{ email, password, name }` | `{ user, accessToken }` (Set-Cookie: refreshToken) |
-| POST | `/auth/login` | `{ email, password }` | `{ user, accessToken }` (Set-Cookie: refreshToken) |
-| POST | `/auth/refresh` | _cookie: refreshToken_ | `{ accessToken }` (rotated refreshToken) |
-| POST | `/auth/logout` | — | `204` (Clear-Cookie: refreshToken) |
-| GET  | `/auth/me`     | — | `{ user }` |
+| Метод | Эндпоинт         | Запрос                      | Ответ                                              |
+| ----- | ---------------- | --------------------------- | -------------------------------------------------- |
+| POST  | `/auth/register` | `{ email, password, name }` | `{ user, accessToken }` (Set-Cookie: refreshToken) |
+| POST  | `/auth/login`    | `{ email, password }`       | `{ user, accessToken }` (Set-Cookie: refreshToken) |
+| POST  | `/auth/refresh`  | _cookie: refreshToken_      | `{ accessToken }` (rotated refreshToken)           |
+| POST  | `/auth/logout`   | —                           | `204` (Clear-Cookie: refreshToken)                 |
+| GET   | `/auth/me`       | —                           | `{ user }`                                         |
 
 ### Transactions
 
-| Метод | Эндпоинт | Запрос | Ответ |
-|-------|----------|--------|-------|
-| GET    | `/transactions?from=&to=&category=&account=&page=` | — | `PaginatedResponse<Transaction>` |
-| POST   | `/transactions` | `CreateDTO<Transaction>` + `Idempotency-Key` | `Transaction` (201) |
-| PATCH  | `/transactions/:id` | `UpdateDTO<Transaction>` + `If-Match: <etag>` | `Transaction` |
-| DELETE | `/transactions/:id` | `If-Match: <etag>` | `204` |
-| POST   | `/transactions/import` | `multipart: file` | `{ imported: number, errors: ParseError[] }` |
+| Метод  | Эндпоинт                                           | Запрос                                        | Ответ                                        |
+| ------ | -------------------------------------------------- | --------------------------------------------- | -------------------------------------------- |
+| GET    | `/transactions?from=&to=&category=&account=&page=` | —                                             | `PaginatedResponse<Transaction>`             |
+| POST   | `/transactions`                                    | `CreateDTO<Transaction>` + `Idempotency-Key`  | `Transaction` (201)                          |
+| PATCH  | `/transactions/:id`                                | `UpdateDTO<Transaction>` + `If-Match: <etag>` | `Transaction`                                |
+| DELETE | `/transactions/:id`                                | `If-Match: <etag>`                            | `204`                                        |
+| POST   | `/transactions/import`                             | `multipart: file`                             | `{ imported: number, errors: ParseError[] }` |
 
 ### Categories / Accounts / Budgets
 
-| Метод | Эндпоинт | Описание |
-|-------|----------|----------|
-| GET    | `/categories` | Дерево категорий (плоский список с `parentId`) |
-| POST   | `/categories` | Создание |
-| PATCH  | `/categories/:id` | Обновление (имя, цвет, parent) |
-| DELETE | `/categories/:id` | Удаление (409 если есть транзакции — нужен `?reassignTo=<id>`) |
-| GET    | `/accounts` | Список счетов |
-| GET    | `/budgets` | Бюджеты текущего пользователя |
-| PUT    | `/budgets/:categoryId` | `{ amount, currency, period }` — upsert |
+| Метод  | Эндпоинт               | Описание                                                       |
+| ------ | ---------------------- | -------------------------------------------------------------- |
+| GET    | `/categories`          | Дерево категорий (плоский список с `parentId`)                 |
+| POST   | `/categories`          | Создание                                                       |
+| PATCH  | `/categories/:id`      | Обновление (имя, цвет, parent)                                 |
+| DELETE | `/categories/:id`      | Удаление (409 если есть транзакции — нужен `?reassignTo=<id>`) |
+| GET    | `/accounts`            | Список счетов                                                  |
+| GET    | `/budgets`             | Бюджеты текущего пользователя                                  |
+| PUT    | `/budgets/:categoryId` | `{ amount, currency, period }` — upsert                        |
 
 ### Real-time
 
-| Транспорт | Эндпоинт | Назначение |
-|-----------|----------|-----------|
-| **SSE**   | `GET /budgets/alerts` (`Accept: text/event-stream`) | Поток событий: `BudgetWarning`, `BudgetExceeded` |
-| **WebSocket** | `wss://api.fintrack.app/v1/currencies/stream` | Live-курсы валют |
+| Транспорт     | Эндпоинт                                            | Назначение                                       |
+| ------------- | --------------------------------------------------- | ------------------------------------------------ |
+| **SSE**       | `GET /budgets/alerts` (`Accept: text/event-stream`) | Поток событий: `BudgetWarning`, `BudgetExceeded` |
+| **WebSocket** | `wss://api.fintrack.app/v1/currencies/stream`       | Live-курсы валют                                 |
 
 **SSE формат события:**
 
@@ -1274,18 +1276,18 @@ data: { "categoryId": "food", "spent": 11250, "limit": 10000 }
 
 ### Currencies
 
-| Метод | Эндпоинт | Описание |
-|-------|----------|----------|
-| GET | `/currencies/rates?base=RUB` | Снапшот курсов |
-| GET | `/currencies/history?symbol=USD_RUB&from=&to=` | Исторические данные для графика |
+| Метод | Эндпоинт                                       | Описание                        |
+| ----- | ---------------------------------------------- | ------------------------------- |
+| GET   | `/currencies/rates?base=RUB`                   | Снапшот курсов                  |
+| GET   | `/currencies/history?symbol=USD_RUB&from=&to=` | Исторические данные для графика |
 
 ### Reports
 
-| Метод | Эндпоинт | Описание |
-|-------|----------|----------|
-| GET | `/reports/summary?from=&to=` | Агрегированные данные по периоду |
-| GET | `/reports/export?format=pdf` | Бинарный PDF (`Content-Type: application/pdf`) |
-| GET | `/reports/export?format=csv` | CSV (`Content-Type: text/csv`) |
+| Метод | Эндпоинт                     | Описание                                       |
+| ----- | ---------------------------- | ---------------------------------------------- |
+| GET   | `/reports/summary?from=&to=` | Агрегированные данные по периоду               |
+| GET   | `/reports/export?format=pdf` | Бинарный PDF (`Content-Type: application/pdf`) |
+| GET   | `/reports/export?format=csv` | CSV (`Content-Type: text/csv`)                 |
 
 ### Rate limiting
 
@@ -2245,18 +2247,21 @@ function trapFocus(e: KeyboardEvent) {
 	}
 }
 
-watch(() => modelValue.value, (open) => {
-	if (open) {
-		lastFocused = document.activeElement as HTMLElement;
-		document.addEventListener('keydown', trapFocus);
-		// Закрытие по Escape
-		document.addEventListener('keydown', escListener);
-	} else {
-		document.removeEventListener('keydown', trapFocus);
-		document.removeEventListener('keydown', escListener);
-		lastFocused?.focus(); // Возврат фокуса туда, откуда модалка была открыта
-	}
-});
+watch(
+	() => modelValue.value,
+	(open) => {
+		if (open) {
+			lastFocused = document.activeElement as HTMLElement;
+			document.addEventListener('keydown', trapFocus);
+			// Закрытие по Escape
+			document.addEventListener('keydown', escListener);
+		} else {
+			document.removeEventListener('keydown', trapFocus);
+			document.removeEventListener('keydown', escListener);
+			lastFocused?.focus(); // Возврат фокуса туда, откуда модалка была открыта
+		}
+	},
+);
 
 function escListener(e: KeyboardEvent) {
 	if (e.key === 'Escape') close();
@@ -2284,14 +2289,28 @@ function escListener(e: KeyboardEvent) {
 
 ```typescript
 // shared/ui/Tabs/keyboardNav.ts
-function onTabKeydown(e: KeyboardEvent, tabs: string[], current: string, setActive: (id: string) => void) {
+function onTabKeydown(
+	e: KeyboardEvent,
+	tabs: string[],
+	current: string,
+	setActive: (id: string) => void,
+) {
 	const idx = tabs.indexOf(current);
 	switch (e.key) {
-		case 'ArrowRight': setActive(tabs[(idx + 1) % tabs.length]); break;
-		case 'ArrowLeft':  setActive(tabs[(idx - 1 + tabs.length) % tabs.length]); break;
-		case 'Home':       setActive(tabs[0]); break;
-		case 'End':        setActive(tabs[tabs.length - 1]); break;
-		default: return;
+		case 'ArrowRight':
+			setActive(tabs[(idx + 1) % tabs.length]);
+			break;
+		case 'ArrowLeft':
+			setActive(tabs[(idx - 1 + tabs.length) % tabs.length]);
+			break;
+		case 'Home':
+			setActive(tabs[0]);
+			break;
+		case 'End':
+			setActive(tabs[tabs.length - 1]);
+			break;
+		default:
+			return;
 	}
 	e.preventDefault();
 }
@@ -2321,7 +2340,9 @@ function onTabKeydown(e: KeyboardEvent, tabs: string[], current: string, setActi
 
 ```scss
 @media (prefers-reduced-motion: reduce) {
-	*, *::before, *::after {
+	*,
+	*::before,
+	*::after {
 		animation-duration: 0.01ms !important;
 		transition-duration: 0.01ms !important;
 	}
@@ -2345,11 +2366,11 @@ function onTabKeydown(e: KeyboardEvent, tabs: string[], current: string, setActi
 
 ### XSS (Cross-Site Scripting)
 
-| Угроза | Защита в FinTrack |
-|--------|--------------------|
-| Внедрение `<script>` через имя транзакции | По умолчанию Vue экранирует `{{ value }}`; `v-html` запрещён ESLint-правилом `vue/no-v-html` |
-| HTML в импорте CSV (`<img src=x onerror=...>`) | Sanitize через DOMPurify перед сохранением; типизированный парсер CSV |
-| HTML в полях user-generated (description) | DOMPurify на бэке + frontend escaping |
+| Угроза                                         | Защита в FinTrack                                                                            |
+| ---------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Внедрение `<script>` через имя транзакции      | По умолчанию Vue экранирует `{{ value }}`; `v-html` запрещён ESLint-правилом `vue/no-v-html` |
+| HTML в импорте CSV (`<img src=x onerror=...>`) | Sanitize через DOMPurify перед сохранением; типизированный парсер CSV                        |
+| HTML в полях user-generated (description)      | DOMPurify на бэке + frontend escaping                                                        |
 
 **CSP-заголовок в nginx (расширение `security_headers`):**
 
@@ -2376,13 +2397,13 @@ add_header Permissions-Policy "geolocation=(), camera=(), microphone=()" always;
 
 ### Хранение
 
-| Данные | Хранилище | Почему |
-|--------|-----------|--------|
-| Access token | Память (Pinia store) | XSS не достанет через `localStorage` |
-| Refresh token | HttpOnly cookie | JS не имеет доступа |
-| User settings (theme, locale) | localStorage | Не критично, нужно между сессиями |
-| Оффлайн-очередь транзакций | IndexedDB | Большие данные, асинхронный доступ |
-| Курсы валют (кеш) | IndexedDB | TTL 5 минут, persist между сессиями |
+| Данные                        | Хранилище            | Почему                               |
+| ----------------------------- | -------------------- | ------------------------------------ |
+| Access token                  | Память (Pinia store) | XSS не достанет через `localStorage` |
+| Refresh token                 | HttpOnly cookie      | JS не имеет доступа                  |
+| User settings (theme, locale) | localStorage         | Не критично, нужно между сессиями    |
+| Оффлайн-очередь транзакций    | IndexedDB            | Большие данные, асинхронный доступ   |
+| Курсы валют (кеш)             | IndexedDB            | TTL 5 минут, persist между сессиями  |
 
 ### Rate limiting (на nginx)
 
@@ -2413,10 +2434,10 @@ location /auth/login {
 import { createI18n } from 'vue-i18n';
 
 export const i18n = createI18n({
-	legacy: false,            // Composition API mode
+	legacy: false, // Composition API mode
 	locale: 'ru',
 	fallbackLocale: 'en',
-	messages: {},             // подгружаем lazy
+	messages: {}, // подгружаем lazy
 });
 
 // Lazy-загрузка локалей — не тащим en при загрузке для ru-пользователя
@@ -2447,8 +2468,10 @@ const { t, n, d } = useI18n();
 
 <template>
 	<p>{{ t('transactions.count', count) }}</p>
-	<p>{{ n(amount, 'currency') }}</p>          <!-- 1 234,56 ₽ -->
-	<p>{{ d(date, 'long') }}</p>                <!-- 1 мая 2026 г. -->
+	<p>{{ n(amount, 'currency') }}</p>
+	<!-- 1 234,56 ₽ -->
+	<p>{{ d(date, 'long') }}</p>
+	<!-- 1 мая 2026 г. -->
 </template>
 ```
 
@@ -2636,48 +2659,51 @@ describe('add-transaction integration', () => {
 
 ### Web Vitals (целевые значения)
 
-| Метрика | Что меряет | Цель | Как улучшить |
-|---------|------------|------|--------------|
-| **LCP** (Largest Contentful Paint) | Скорость отрисовки крупного контента | < 2.5s | Lazy-загрузка графиков, preload critical fonts, CDN |
-| **CLS** (Cumulative Layout Shift) | Сдвиг layout при загрузке | < 0.1 | Skeleton-плейсхолдеры, фиксированные размеры изображений |
-| **INP** (Interaction to Next Paint) | Отклик на клик/тап (заменил FID в 2024) | < 200ms | Web Worker для тяжёлых задач, virtualization, debounce |
-| **FCP** (First Contentful Paint) | Первая отрисовка | < 1.8s | Code splitting, сжатие, HTTP/2 |
-| **TTFB** (Time to First Byte) | Скорость ответа сервера | < 600ms | CDN, edge caching, SSR где оправдано |
+| Метрика                             | Что меряет                              | Цель    | Как улучшить                                             |
+| ----------------------------------- | --------------------------------------- | ------- | -------------------------------------------------------- |
+| **LCP** (Largest Contentful Paint)  | Скорость отрисовки крупного контента    | < 2.5s  | Lazy-загрузка графиков, preload critical fonts, CDN      |
+| **CLS** (Cumulative Layout Shift)   | Сдвиг layout при загрузке               | < 0.1   | Skeleton-плейсхолдеры, фиксированные размеры изображений |
+| **INP** (Interaction to Next Paint) | Отклик на клик/тап (заменил FID в 2024) | < 200ms | Web Worker для тяжёлых задач, virtualization, debounce   |
+| **FCP** (First Contentful Paint)    | Первая отрисовка                        | < 1.8s  | Code splitting, сжатие, HTTP/2                           |
+| **TTFB** (Time to First Byte)       | Скорость ответа сервера                 | < 600ms | CDN, edge caching, SSR где оправдано                     |
 
 ### Bundle budget
 
-| Bundle | Лимит | Контроль |
-|--------|-------|----------|
-| Initial JS (на route `/dashboard`) | ≤ 200 KB gzip | `rollup-plugin-visualizer` + Lighthouse CI |
-| Per-route chunks | ≤ 100 KB gzip каждый | Vite `build.rollupOptions.output.manualChunks` |
-| Total JS на странице | ≤ 500 KB gzip | `npm run analyze` после билда |
-| CSS initial | ≤ 50 KB gzip | PurgeCSS / scoped стили |
+| Bundle                             | Лимит                | Контроль                                       |
+| ---------------------------------- | -------------------- | ---------------------------------------------- |
+| Initial JS (на route `/dashboard`) | ≤ 200 KB gzip        | `rollup-plugin-visualizer` + Lighthouse CI     |
+| Per-route chunks                   | ≤ 100 KB gzip каждый | Vite `build.rollupOptions.output.manualChunks` |
+| Total JS на странице               | ≤ 500 KB gzip        | `npm run analyze` после билда                  |
+| CSS initial                        | ≤ 50 KB gzip         | PurgeCSS / scoped стили                        |
 
 ### Test coverage targets
 
-| Слой | Цель |
-|------|------|
-| `shared/lib` (утилиты) | ≥ 90% statements |
-| `shared/composables` | ≥ 80% |
-| `entities/*/model/*Store` | ≥ 70% |
-| `features/*` | ≥ 60% |
-| Общий статус CI | ≥ 70% |
+| Слой                      | Цель             |
+| ------------------------- | ---------------- |
+| `shared/lib` (утилиты)    | ≥ 90% statements |
+| `shared/composables`      | ≥ 80%            |
+| `entities/*/model/*Store` | ≥ 70%            |
+| `features/*`              | ≥ 60%            |
+| Общий статус CI           | ≥ 70%            |
 
 ### Lighthouse CI порог
 
 ```yaml
 # .lighthouserc.json
 {
-	"ci": {
-		"assert": {
-			"assertions": {
-				"categories:performance": ["error", { "minScore": 0.9 }],
-				"categories:accessibility": ["error", { "minScore": 0.95 }],
-				"categories:best-practices": ["error", { "minScore": 0.9 }],
-				"categories:seo": ["error", { "minScore": 0.85 }]
-			}
-		}
-	}
+    'ci':
+        {
+            'assert':
+                {
+                    'assertions':
+                        {
+                            'categories:performance': ['error', { 'minScore': 0.9 }],
+                            'categories:accessibility': ['error', { 'minScore': 0.95 }],
+                            'categories:best-practices': ['error', { 'minScore': 0.9 }],
+                            'categories:seo': ['error', { 'minScore': 0.85 }],
+                        },
+                },
+        },
 }
 ```
 
@@ -2705,11 +2731,11 @@ export const webVitalsPlugin = {
 
 ### Error rate (Sentry)
 
-| Метрика | Цель |
-|---------|------|
-| Crash-free sessions | ≥ 99.9% |
+| Метрика               | Цель          |
+| --------------------- | ------------- |
+| Crash-free sessions   | ≥ 99.9%       |
 | Error rate (uncaught) | ≤ 0.1% сессий |
-| Resolved time для P1 | ≤ 24h |
+| Resolved time для P1  | ≤ 24h         |
 
 ### Что измеряем в DevOps-пайплайне
 
@@ -2860,20 +2886,20 @@ main            ← production, стабильная ветка
 
 > **Тема собеса:** "Какие антипаттерны знаешь?"
 
-| Антипаттерн | Где мог бы появиться в FinTrack | Решение в проекте |
-|-------------|----------------------------------|-------------------|
-| **God Component** | `DashboardPage.vue` со всей логикой графиков, фильтрами, экспортом — 1500+ строк | Декомпозиция на widgets (`BalanceCard`, `ExpenseChart`, `BudgetProgress`); каждая widget'а ≤ 200 строк, единая ответственность |
-| **Prop Drilling** | Передача `currentUser` через 5 уровней: `App → Layout → Sidebar → UserMenu → Avatar` | `provide('currentUser')` в `AuthProvider`, `inject` в любом потомке; для глобального — Pinia |
-| **Mixins** | Общая логика "форматирование суммы" в mixin'е, подмешиваемом в каждый компонент | Composable `useFormatMoney()` — явные импорты, типизация, нет коллизий имён |
-| **Неконтролируемый watch** | `watch(state, () => fetch(...))` без `AbortController` — гонка запросов при быстрой смене фильтров | `useFetch` отменяет предыдущий запрос через `AbortController` |
-| **Direct DOM manipulation** | `document.querySelector('.modal').style.display = 'none'` в обход реактивности | Управление через `v-if` / `v-show` + `defineModel` в `AppModal` |
-| **Магические числа** | `if (percentage > 80)` без объяснения, что 80 — порог уведомления | Константы в `shared/config/budget.ts`: `BUDGET_WARN_THRESHOLD = 80` |
-| **Утечка памяти в подписках** | `addEventListener` без `removeEventListener`, незакрытые WebSocket'ы | `useEventListener`, `useWebSocket` композаблы — авто-cleanup в `onBeforeUnmount` |
-| **Mutation внутри `computed`** | `computed(() => transactions.value.sort(...))` — мутирует исходный массив | `computed(() => [...transactions.value].sort(...))` или `toSorted()` |
-| **`any` для подавления TS-ошибок** | `(data as any).field.nested` — теряем безопасность типов | `unknown` + type guards / `zod.parse(data)` на границе API |
-| **Глобальный singleton state в `app.config.globalProperties`** | `app.config.globalProperties.$user = userObj` — невозможно тестировать, нет реактивности | Pinia store + composable `useAuth()` |
-| **Неконтролируемые ре-рендеры** | Глубокая структура с `reactive`, перерисовывающая весь дерево при любом изменении | `shallowRef` для данных графиков (Chart.js сам управляет внутренним DOM) + `v-memo` для строк виртуального скролла |
-| **Inline-стили вместо классов** | `:style="{ background: budget.color }"` для каждой строки | CSS-переменные: `style="--budget-color: ${color}"` + класс с `background: var(--budget-color)` |
+| Антипаттерн                                                    | Где мог бы появиться в FinTrack                                                                    | Решение в проекте                                                                                                              |
+| -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **God Component**                                              | `DashboardPage.vue` со всей логикой графиков, фильтрами, экспортом — 1500+ строк                   | Декомпозиция на widgets (`BalanceCard`, `ExpenseChart`, `BudgetProgress`); каждая widget'а ≤ 200 строк, единая ответственность |
+| **Prop Drilling**                                              | Передача `currentUser` через 5 уровней: `App → Layout → Sidebar → UserMenu → Avatar`               | `provide('currentUser')` в `AuthProvider`, `inject` в любом потомке; для глобального — Pinia                                   |
+| **Mixins**                                                     | Общая логика "форматирование суммы" в mixin'е, подмешиваемом в каждый компонент                    | Composable `useFormatMoney()` — явные импорты, типизация, нет коллизий имён                                                    |
+| **Неконтролируемый watch**                                     | `watch(state, () => fetch(...))` без `AbortController` — гонка запросов при быстрой смене фильтров | `useFetch` отменяет предыдущий запрос через `AbortController`                                                                  |
+| **Direct DOM manipulation**                                    | `document.querySelector('.modal').style.display = 'none'` в обход реактивности                     | Управление через `v-if` / `v-show` + `defineModel` в `AppModal`                                                                |
+| **Магические числа**                                           | `if (percentage > 80)` без объяснения, что 80 — порог уведомления                                  | Константы в `shared/config/budget.ts`: `BUDGET_WARN_THRESHOLD = 80`                                                            |
+| **Утечка памяти в подписках**                                  | `addEventListener` без `removeEventListener`, незакрытые WebSocket'ы                               | `useEventListener`, `useWebSocket` композаблы — авто-cleanup в `onBeforeUnmount`                                               |
+| **Mutation внутри `computed`**                                 | `computed(() => transactions.value.sort(...))` — мутирует исходный массив                          | `computed(() => [...transactions.value].sort(...))` или `toSorted()`                                                           |
+| **`any` для подавления TS-ошибок**                             | `(data as any).field.nested` — теряем безопасность типов                                           | `unknown` + type guards / `zod.parse(data)` на границе API                                                                     |
+| **Глобальный singleton state в `app.config.globalProperties`** | `app.config.globalProperties.$user = userObj` — невозможно тестировать, нет реактивности           | Pinia store + composable `useAuth()`                                                                                           |
+| **Неконтролируемые ре-рендеры**                                | Глубокая структура с `reactive`, перерисовывающая весь дерево при любом изменении                  | `shallowRef` для данных графиков (Chart.js сам управляет внутренним DOM) + `v-memo` для строк виртуального скролла             |
+| **Inline-стили вместо классов**                                | `:style="{ background: budget.color }"` для каждой строки                                          | CSS-переменные: `style="--budget-color: ${color}"` + класс с `background: var(--budget-color)`                                 |
 
 **Принципы, которые помогают этого избегать:**
 
@@ -2910,12 +2936,12 @@ main            ← production, стабильная ветка
 
 **Способы разрешения коллизий:**
 
-| Метод | Идея | Где применяется |
-|-------|------|------------------|
-| **Separate chaining** | В bucket лежит связный список / массив; коллизирующие пары добавляются в него | V8 `Map`, Java `HashMap` |
-| **Open addressing (linear probing)** | При коллизии ищется следующий свободный bucket линейно | Python `dict` |
-| **Open addressing (quadratic probing)** | Шаг растёт квадратично: +1, +4, +9 | Реже, помогает кластеризации |
-| **Cuckoo hashing** | 2 хеш-функции, при коллизии "выселяют" старого жильца | Специфика, БД |
+| Метод                                   | Идея                                                                          | Где применяется              |
+| --------------------------------------- | ----------------------------------------------------------------------------- | ---------------------------- |
+| **Separate chaining**                   | В bucket лежит связный список / массив; коллизирующие пары добавляются в него | V8 `Map`, Java `HashMap`     |
+| **Open addressing (linear probing)**    | При коллизии ищется следующий свободный bucket линейно                        | Python `dict`                |
+| **Open addressing (quadratic probing)** | Шаг растёт квадратично: +1, +4, +9                                            | Реже, помогает кластеризации |
+| **Cuckoo hashing**                      | 2 хеш-функции, при коллизии "выселяют" старого жильца                         | Специфика, БД                |
 
 **Big O:**
 
@@ -2928,13 +2954,13 @@ main            ← production, стабильная ветка
 
 Со спецификации **ECMAScript 2019**, метод `.sort()` обязан быть **стабильным**. V8 (Chrome/Node.js) и SpiderMonkey (Firefox) реализуют его через **TimSort** — гибрид merge sort + insertion sort:
 
-| Свойство | TimSort |
-|----------|---------|
-| **Стабильность** | Да (равные элементы сохраняют исходный порядок) |
-| **Худшее** | O(n log n) |
-| **Среднее** | O(n log n) |
-| **Лучшее** | **O(n)** на уже отсортированных или почти отсортированных данных |
-| **Память** | O(n) (нужен буфер для merge) |
+| Свойство         | TimSort                                                          |
+| ---------------- | ---------------------------------------------------------------- |
+| **Стабильность** | Да (равные элементы сохраняют исходный порядок)                  |
+| **Худшее**       | O(n log n)                                                       |
+| **Среднее**      | O(n log n)                                                       |
+| **Лучшее**       | **O(n)** на уже отсортированных или почти отсортированных данных |
+| **Память**       | O(n) (нужен буфер для merge)                                     |
 
 **Идея алгоритма:**
 
@@ -2958,34 +2984,34 @@ main            ← production, стабильная ветка
 
 ### JavaScript
 
-| Тема                                            | Модуль                                                    |
-| ----------------------------------------------- | --------------------------------------------------------- |
-| Мутирующие/не мутирующие методы массива         | Транзакции (sort vs toSorted, filter, map)                |
-| Прототипное наследование                        | Категории (обсуждение)                                    |
-| `[[ ]]` (внутренние слоты)                      | Категории (обсуждение [[Prototype]])                      |
-| Promise vs async/await                          | Авторизация, Мультивалютность                             |
-| Контекст, `this`                                | Мультивалютность (WebSocket callbacks)                    |
-| `bind`, `call`, `apply`                         | Мультивалютность (привязка контекста)                     |
-| Замыкание                                       | Авторизация (interceptor), Транзакции (debounce/throttle) |
-| Виды функций                                    | Мультивалютность (arrow vs function в WS)                 |
-| Сборщик мусора                                  | Импорт (освобождение после парсинга)                      |
-| Рекурсия                                        | Категории (рекурсивное дерево)                            |
-| Всплытие/погружение, делегирование              | Транзакции (делегирование в списке)                       |
-| Клонирование объектов                           | Отчёты (deepClone для экспорта)                           |
-| `\|\|` vs `??`                                  | Мультивалютность (`rate ?? 1`)                            |
-| Promise                                         | Авторизация, Мультивалютность                             |
-| Методы Promise (all, race, any, allSettled, finally)          | Бюджеты (Promise.all/race), Мультивалютность (any/finally)  |
-| Обработка ошибок через then                     | Авторизация (обсуждение)                                  |
-| Async/await                                     | Авторизация, Мультивалютность, Транзакции                 |
-| Генераторы                                      | Импорт (чтение CSV чанками)                               |
-| AbortController                                 | Мультивалютность (отмена запросов), useFetch              |
-| `reduce()`                                      | Транзакции (totalIncome, totalExpense)                    |
-| Map vs объект                                   | Мультивалютность (Map для курсов)                         |
-| WeakMap / WeakSet                               | Мультивалютность (кеш конвертаций)                        |
-| Event Loop, микро/макрозадачи                   | Бюджеты (порядок обработки)                               |
-| `requestAnimationFrame` / `requestIdleCallback` | Дашборд (rAF анимации), Отчёты (rIC фоновые вычисления)   |
-| IntersectionObserver / ResizeObserver           | Транзакции (InfiniteScroll), Настройки (ResizeObserver)   |
-| Каррирование                                    | Мультивалютность (createConverter)                        |
+| Тема                                                 | Модуль                                                     |
+| ---------------------------------------------------- | ---------------------------------------------------------- |
+| Мутирующие/не мутирующие методы массива              | Транзакции (sort vs toSorted, filter, map)                 |
+| Прототипное наследование                             | Категории (обсуждение)                                     |
+| `[[ ]]` (внутренние слоты)                           | Категории (обсуждение [[Prototype]])                       |
+| Promise vs async/await                               | Авторизация, Мультивалютность                              |
+| Контекст, `this`                                     | Мультивалютность (WebSocket callbacks)                     |
+| `bind`, `call`, `apply`                              | Мультивалютность (привязка контекста)                      |
+| Замыкание                                            | Авторизация (interceptor), Транзакции (debounce/throttle)  |
+| Виды функций                                         | Мультивалютность (arrow vs function в WS)                  |
+| Сборщик мусора                                       | Импорт (освобождение после парсинга)                       |
+| Рекурсия                                             | Категории (рекурсивное дерево)                             |
+| Всплытие/погружение, делегирование                   | Транзакции (делегирование в списке)                        |
+| Клонирование объектов                                | Отчёты (deepClone для экспорта)                            |
+| `\|\|` vs `??`                                       | Мультивалютность (`rate ?? 1`)                             |
+| Promise                                              | Авторизация, Мультивалютность                              |
+| Методы Promise (all, race, any, allSettled, finally) | Бюджеты (Promise.all/race), Мультивалютность (any/finally) |
+| Обработка ошибок через then                          | Авторизация (обсуждение)                                   |
+| Async/await                                          | Авторизация, Мультивалютность, Транзакции                  |
+| Генераторы                                           | Импорт (чтение CSV чанками)                                |
+| AbortController                                      | Мультивалютность (отмена запросов), useFetch               |
+| `reduce()`                                           | Транзакции (totalIncome, totalExpense)                     |
+| Map vs объект                                        | Мультивалютность (Map для курсов)                          |
+| WeakMap / WeakSet                                    | Мультивалютность (кеш конвертаций)                         |
+| Event Loop, микро/макрозадачи                        | Бюджеты (порядок обработки)                                |
+| `requestAnimationFrame` / `requestIdleCallback`      | Дашборд (rAF анимации), Отчёты (rIC фоновые вычисления)    |
+| IntersectionObserver / ResizeObserver                | Транзакции (InfiniteScroll), Настройки (ResizeObserver)    |
+| Каррирование                                         | Мультивалютность (createConverter)                         |
 
 ### Браузер и сети
 
@@ -3217,244 +3243,244 @@ main            ← production, стабильная ветка
 
 ### 1. JavaScript
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Мутирующие/немутирующие методы массива | ✅ | Транзакции (`toSorted` vs `sort`) |
-| 2 | Прототипное наследование | 🟡 | Категории (обсуждение) |
-| 3 | Внутренние слоты `[[ ]]` | 🟡 | Категории (`[[Prototype]]`) |
-| 4 | Promise vs async/await | ✅ | Авторизация, useFetch |
-| 5 | Контекст выполнения, `this` | ✅ | Мультивалютность (WS callbacks) |
-| 6 | `bind` / `call` / `apply` | ✅ | Мультивалютность |
-| 7 | Замыкание | ✅ | Auth interceptor, debounce |
-| 8 | Виды функций | ✅ | Мультивалютность (arrow vs function) |
-| 9 | Сборщик мусора, алгоритм, достижимость | ✅ | Импорт + Computer Science |
-| 10 | Рекурсия, опасности | ✅ | Категории (рекурсивный компонент) |
-| 11 | Всплытие/погружение, делегирование | ✅ | Транзакции (делегирование клика) |
-| 12 | Способы клонирования | ✅ | Отчёты (deepClone, structuredClone) |
-| 13 | `\|\|` vs `??` | ✅ | Мультивалютность |
-| 14 | Promise | ✅ | useFetch, Авторизация |
-| 15 | Методы Promise (all/race/any/allSettled/finally) | ✅ | Бюджеты + Мультивалютность |
-| 16 | Обработка ошибок через `then` | 🟡 | Авторизация (обсуждение) |
-| 17 | async/await | ✅ | Все async actions |
-| 18 | Генераторы | ✅ | Импорт CSV (чанки) |
-| 19 | AbortController | ✅ | useFetch |
-| 20 | `reduce()` | ✅ | totalIncome/totalExpense |
-| 21 | Map vs объект | ✅ | currencyStore.rates |
-| 22 | WeakMap / WeakSet | ✅ | Кеш конвертаций |
-| 23 | Event Loop, микро/макро | ✅ | Бюджеты (порядок обработки) |
-| 24 | rAF / rIC | ✅ | Дашборд + Отчёты |
-| 25 | IntersectionObserver / ResizeObserver | ✅ | InfiniteScroll, ResizeObserver виджетов |
-| 26 | Каррирование | ✅ | createConverter |
+| #   | Вопрос                                           | Статус | Где разобрано                           |
+| --- | ------------------------------------------------ | ------ | --------------------------------------- |
+| 1   | Мутирующие/немутирующие методы массива           | ✅     | Транзакции (`toSorted` vs `sort`)       |
+| 2   | Прототипное наследование                         | 🟡     | Категории (обсуждение)                  |
+| 3   | Внутренние слоты `[[ ]]`                         | 🟡     | Категории (`[[Prototype]]`)             |
+| 4   | Promise vs async/await                           | ✅     | Авторизация, useFetch                   |
+| 5   | Контекст выполнения, `this`                      | ✅     | Мультивалютность (WS callbacks)         |
+| 6   | `bind` / `call` / `apply`                        | ✅     | Мультивалютность                        |
+| 7   | Замыкание                                        | ✅     | Auth interceptor, debounce              |
+| 8   | Виды функций                                     | ✅     | Мультивалютность (arrow vs function)    |
+| 9   | Сборщик мусора, алгоритм, достижимость           | ✅     | Импорт + Computer Science               |
+| 10  | Рекурсия, опасности                              | ✅     | Категории (рекурсивный компонент)       |
+| 11  | Всплытие/погружение, делегирование               | ✅     | Транзакции (делегирование клика)        |
+| 12  | Способы клонирования                             | ✅     | Отчёты (deepClone, structuredClone)     |
+| 13  | `\|\|` vs `??`                                   | ✅     | Мультивалютность                        |
+| 14  | Promise                                          | ✅     | useFetch, Авторизация                   |
+| 15  | Методы Promise (all/race/any/allSettled/finally) | ✅     | Бюджеты + Мультивалютность              |
+| 16  | Обработка ошибок через `then`                    | 🟡     | Авторизация (обсуждение)                |
+| 17  | async/await                                      | ✅     | Все async actions                       |
+| 18  | Генераторы                                       | ✅     | Импорт CSV (чанки)                      |
+| 19  | AbortController                                  | ✅     | useFetch                                |
+| 20  | `reduce()`                                       | ✅     | totalIncome/totalExpense                |
+| 21  | Map vs объект                                    | ✅     | currencyStore.rates                     |
+| 22  | WeakMap / WeakSet                                | ✅     | Кеш конвертаций                         |
+| 23  | Event Loop, микро/макро                          | ✅     | Бюджеты (порядок обработки)             |
+| 24  | rAF / rIC                                        | ✅     | Дашборд + Отчёты                        |
+| 25  | IntersectionObserver / ResizeObserver            | ✅     | InfiniteScroll, ResizeObserver виджетов |
+| 26  | Каррирование                                     | ✅     | createConverter                         |
 
 ### 2. Браузер и сети
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Что происходит при вводе URL | ✅ | PWA + Безопасность |
-| 2 | Garbage Collection | ✅ | Импорт + Computer Science |
-| 3 | Состав HTTP-запроса | ✅ | API Specification |
-| 4 | Cookie, HttpOnly | ✅ | Безопасность (cookie attributes) |
-| 5 | Хранение данных на фронтенде | ✅ | PWA + Безопасность (таблица хранилищ) |
-| 6 | Web API | ✅ | PWA |
-| 7 | Оптимизация (FCP, LCP, CLS) | ✅ | Метрики успеха |
-| 8 | Lighthouse, Performance, Network | ✅ | Метрики успеха (Lighthouse CI) |
-| 9 | WebRTC, WebSocket | ✅ | Мультивалютность |
-| 10 | Shadow DOM | 🟡 | PWA (Web Components обсуждение) |
-| 11 | Рендер HTML | ✅ | Отчёты (DOM → CSSOM → Render Tree) |
-| 12 | HTTP vs HTTPS | ✅ | Авторизация + Безопасность |
-| 13 | CORS, preflight, OPTIONS | ✅ | Мультивалютность |
-| 14 | Layout, paint, compositing | ✅ | Отчёты |
-| 15 | Web Worker, Service Worker | ✅ | Импорт + PWA |
-| 16 | SPA, PWA | ✅ | PWA |
+| #   | Вопрос                           | Статус | Где разобрано                         |
+| --- | -------------------------------- | ------ | ------------------------------------- |
+| 1   | Что происходит при вводе URL     | ✅     | PWA + Безопасность                    |
+| 2   | Garbage Collection               | ✅     | Импорт + Computer Science             |
+| 3   | Состав HTTP-запроса              | ✅     | API Specification                     |
+| 4   | Cookie, HttpOnly                 | ✅     | Безопасность (cookie attributes)      |
+| 5   | Хранение данных на фронтенде     | ✅     | PWA + Безопасность (таблица хранилищ) |
+| 6   | Web API                          | ✅     | PWA                                   |
+| 7   | Оптимизация (FCP, LCP, CLS)      | ✅     | Метрики успеха                        |
+| 8   | Lighthouse, Performance, Network | ✅     | Метрики успеха (Lighthouse CI)        |
+| 9   | WebRTC, WebSocket                | ✅     | Мультивалютность                      |
+| 10  | Shadow DOM                       | 🟡     | PWA (Web Components обсуждение)       |
+| 11  | Рендер HTML                      | ✅     | Отчёты (DOM → CSSOM → Render Tree)    |
+| 12  | HTTP vs HTTPS                    | ✅     | Авторизация + Безопасность            |
+| 13  | CORS, preflight, OPTIONS         | ✅     | Мультивалютность                      |
+| 14  | Layout, paint, compositing       | ✅     | Отчёты                                |
+| 15  | Web Worker, Service Worker       | ✅     | Импорт + PWA                          |
+| 16  | SPA, PWA                         | ✅     | PWA                                   |
 
 ### 3. Vue.js
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Реактивность Vue 3, Proxy vs defineProperty | ✅ | SSR раздел + effect/track/trigger |
-| 2 | ref vs reactive | ✅ | Composables |
-| 3 | shallowRef / shallowReactive | ✅ | Дашборд (графики) |
-| 4 | computed vs watch vs watchEffect | ✅ | Composables |
-| 5 | toRef/toRefs/toRaw/unref/isRef | 🟡 | Composables (упоминание) |
-| 6 | nextTick | ✅ | Бюджеты |
-| 7 | `.value` у ref | ✅ | Все composables |
-| 8 | Effect, track/trigger | ✅ | Реактивность изнутри (раздел 7.5) |
-| 9 | triggerRef | 🟡 | Дашборд (shallowRef + triggerRef) |
-| 10 | effectScope | ✅ | createStore |
-| 11 | Жизненный цикл | ✅ | Composables, Дашборд (onActivated) |
-| 12 | Options API vs Composition API | ✅ | Все компоненты на Composition |
-| 13 | Composables vs mixins | ✅ | Все composables + Антипаттерны |
-| 14 | `<script setup>` | ✅ | Все компоненты |
-| 15 | defineProps/Emits/Expose/Model/Options/Slots | ✅ | UI-kit |
-| 16 | provide / inject + реактивность | ✅ | Категории, AppTabs |
-| 17 | Передача данных между компонентами | ✅ | UI-kit + Антипаттерны (prop drilling) |
-| 18 | v-model на компоненте + кастомный модификатор | ✅ | InputMoney |
-| 19 | key в v-for | ✅ | Транзакции |
-| 20 | Teleport | ✅ | AppModal |
-| 21 | Suspense | ✅ | Дашборд |
-| 22 | defineAsyncComponent | ✅ | Дашборд (графики) |
-| 23 | Slots (default/named/scoped) | ✅ | AppModal, Категории |
-| 24 | KeepAlive | ✅ | Дашборд |
-| 25 | Transition / TransitionGroup | ✅ | Toast, Modal |
-| 26 | attrs, fallthrough | ✅ | AppButton, AppInput |
-| 27 | Render-функция, h() | ✅ | Отчёты (DynamicChart) |
-| 28 | Виртуальный DOM | 🟡 | Дашборд (обсуждение) |
-| 29 | Алгоритм патчинга (diff) | 🟡 | Транзакции (key для оптимизации) |
-| 30 | Компиляция шаблонов | 🟡 | Обсуждение |
-| 31 | Static hoisting, patch flags, block tree | 🟡 | Дашборд |
-| 32 | Vue vs React vs Svelte | 🟡 | SSR раздел (push vs pull) |
-| 33 | Hash vs history mode | ✅ | Маршрутизация |
-| 34 | Navigation guards | ✅ | Авторизация |
-| 35 | Lazy loading роутов | ✅ | Маршрутизация |
-| 36 | params vs query | ✅ | Маршрутизация |
-| 37 | Nested routes | ✅ | Маршрутизация |
-| 38 | Защита роутов | ✅ | Авторизация |
-| 39 | router.push vs replace | ✅ | Авторизация |
-| 40 | Pinia vs Vuex | ✅ | Pinia Stores |
-| 41 | state/getters/actions | ✅ | transactionStore |
-| 42 | Option vs Setup stores | ✅ | authStore vs transactionStore |
-| 43 | storeToRefs | ✅ | Pinia Stores |
-| 44 | Inter-store communication | ✅ | addTransaction → budgetStore |
-| 45 | Плагины Pinia | ✅ | piniaLoggerPlugin |
-| 46 | Тестирование stores | ✅ | Тестирование |
-| 47 | Flux | ✅ | Pinia (action → state → getter → view) |
-| 48 | Профилирование | ✅ | Метрики успеха |
-| 49 | v-once / v-memo | ✅ | VirtualScroll |
-| 50 | Избежание ре-рендеров | ✅ | Антипаттерны (mutation в computed) |
-| 51 | Кастомные директивы | ✅ | v-lazy-img, v-click-outside |
-| 52 | Vue плагины, app.use() | ✅ | toastPlugin, errorPlugin |
-| 53 | SSR (Nuxt), ограничения | ✅ | Раздел 4.5 |
-| 54 | Hydration, mismatch | ✅ | Раздел 4.5 |
-| 55 | `<ClientOnly>` | ✅ | Раздел 4.5 |
+| #   | Вопрос                                        | Статус | Где разобрано                          |
+| --- | --------------------------------------------- | ------ | -------------------------------------- |
+| 1   | Реактивность Vue 3, Proxy vs defineProperty   | ✅     | SSR раздел + effect/track/trigger      |
+| 2   | ref vs reactive                               | ✅     | Composables                            |
+| 3   | shallowRef / shallowReactive                  | ✅     | Дашборд (графики)                      |
+| 4   | computed vs watch vs watchEffect              | ✅     | Composables                            |
+| 5   | toRef/toRefs/toRaw/unref/isRef                | 🟡     | Composables (упоминание)               |
+| 6   | nextTick                                      | ✅     | Бюджеты                                |
+| 7   | `.value` у ref                                | ✅     | Все composables                        |
+| 8   | Effect, track/trigger                         | ✅     | Реактивность изнутри (раздел 7.5)      |
+| 9   | triggerRef                                    | 🟡     | Дашборд (shallowRef + triggerRef)      |
+| 10  | effectScope                                   | ✅     | createStore                            |
+| 11  | Жизненный цикл                                | ✅     | Composables, Дашборд (onActivated)     |
+| 12  | Options API vs Composition API                | ✅     | Все компоненты на Composition          |
+| 13  | Composables vs mixins                         | ✅     | Все composables + Антипаттерны         |
+| 14  | `<script setup>`                              | ✅     | Все компоненты                         |
+| 15  | defineProps/Emits/Expose/Model/Options/Slots  | ✅     | UI-kit                                 |
+| 16  | provide / inject + реактивность               | ✅     | Категории, AppTabs                     |
+| 17  | Передача данных между компонентами            | ✅     | UI-kit + Антипаттерны (prop drilling)  |
+| 18  | v-model на компоненте + кастомный модификатор | ✅     | InputMoney                             |
+| 19  | key в v-for                                   | ✅     | Транзакции                             |
+| 20  | Teleport                                      | ✅     | AppModal                               |
+| 21  | Suspense                                      | ✅     | Дашборд                                |
+| 22  | defineAsyncComponent                          | ✅     | Дашборд (графики)                      |
+| 23  | Slots (default/named/scoped)                  | ✅     | AppModal, Категории                    |
+| 24  | KeepAlive                                     | ✅     | Дашборд                                |
+| 25  | Transition / TransitionGroup                  | ✅     | Toast, Modal                           |
+| 26  | attrs, fallthrough                            | ✅     | AppButton, AppInput                    |
+| 27  | Render-функция, h()                           | ✅     | Отчёты (DynamicChart)                  |
+| 28  | Виртуальный DOM                               | 🟡     | Дашборд (обсуждение)                   |
+| 29  | Алгоритм патчинга (diff)                      | 🟡     | Транзакции (key для оптимизации)       |
+| 30  | Компиляция шаблонов                           | 🟡     | Обсуждение                             |
+| 31  | Static hoisting, patch flags, block tree      | 🟡     | Дашборд                                |
+| 32  | Vue vs React vs Svelte                        | 🟡     | SSR раздел (push vs pull)              |
+| 33  | Hash vs history mode                          | ✅     | Маршрутизация                          |
+| 34  | Navigation guards                             | ✅     | Авторизация                            |
+| 35  | Lazy loading роутов                           | ✅     | Маршрутизация                          |
+| 36  | params vs query                               | ✅     | Маршрутизация                          |
+| 37  | Nested routes                                 | ✅     | Маршрутизация                          |
+| 38  | Защита роутов                                 | ✅     | Авторизация                            |
+| 39  | router.push vs replace                        | ✅     | Авторизация                            |
+| 40  | Pinia vs Vuex                                 | ✅     | Pinia Stores                           |
+| 41  | state/getters/actions                         | ✅     | transactionStore                       |
+| 42  | Option vs Setup stores                        | ✅     | authStore vs transactionStore          |
+| 43  | storeToRefs                                   | ✅     | Pinia Stores                           |
+| 44  | Inter-store communication                     | ✅     | addTransaction → budgetStore           |
+| 45  | Плагины Pinia                                 | ✅     | piniaLoggerPlugin                      |
+| 46  | Тестирование stores                           | ✅     | Тестирование                           |
+| 47  | Flux                                          | ✅     | Pinia (action → state → getter → view) |
+| 48  | Профилирование                                | ✅     | Метрики успеха                         |
+| 49  | v-once / v-memo                               | ✅     | VirtualScroll                          |
+| 50  | Избежание ре-рендеров                         | ✅     | Антипаттерны (mutation в computed)     |
+| 51  | Кастомные директивы                           | ✅     | v-lazy-img, v-click-outside            |
+| 52  | Vue плагины, app.use()                        | ✅     | toastPlugin, errorPlugin               |
+| 53  | SSR (Nuxt), ограничения                       | ✅     | Раздел 4.5                             |
+| 54  | Hydration, mismatch                           | ✅     | Раздел 4.5                             |
+| 55  | `<ClientOnly>`                                | ✅     | Раздел 4.5                             |
 
 ### 4. TypeScript
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | interface vs type | ✅ | Модели данных |
-| 2 | Enum, компиляция | ✅ | Модели данных (Period, Currency) |
-| 3 | Компиляция type/interface | ✅ | Модели данных (стираются) |
-| 4 | any / unknown / never | ✅ | Модели данных (parseApiResponse, assertNever) |
-| 5 | Generics | ✅ | ApiResponse<T>, CreateDTO<T> |
-| 6 | extends | ✅ | BaseEntity + constraints |
-| 7 | keyof / typeof | ✅ | SortableKeys |
-| 8 | Utility Types | ✅ | Omit/Partial/Pick + DeepReadonly |
-| 9 | as | ✅ | После type narrowing |
+| #   | Вопрос                    | Статус | Где разобрано                                 |
+| --- | ------------------------- | ------ | --------------------------------------------- |
+| 1   | interface vs type         | ✅     | Модели данных                                 |
+| 2   | Enum, компиляция          | ✅     | Модели данных (Period, Currency)              |
+| 3   | Компиляция type/interface | ✅     | Модели данных (стираются)                     |
+| 4   | any / unknown / never     | ✅     | Модели данных (parseApiResponse, assertNever) |
+| 5   | Generics                  | ✅     | ApiResponse<T>, CreateDTO<T>                  |
+| 6   | extends                   | ✅     | BaseEntity + constraints                      |
+| 7   | keyof / typeof            | ✅     | SortableKeys                                  |
+| 8   | Utility Types             | ✅     | Omit/Partial/Pick + DeepReadonly              |
+| 9   | as                        | ✅     | После type narrowing                          |
 
 ### 5. Методологии и подходы
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | SOLID на фронте | 🟡 | FSD (SRP, OCP, DIP) |
-| 2 | KISS / DRY / YAGNI | 🟡 | Архитектура |
-| 3 | BEM | ✅ | CSS / Верстка |
-| 4 | Паттерны проектирования | ✅ | Архитектура (Observer, Strategy, Facade, Singleton) |
-| 5 | 3 группы паттернов | ✅ | Архитектура |
-| 6 | Frontend-паттерны в библиотеках | 🟡 | Pinia (Singleton), Vue Router (Strategy) |
-| 7 | Антипаттерны | ✅ | Раздел 12.5 |
-| 8 | FSD, Breadcrumbs | ✅ | Архитектура (Breadcrumbs → shared/ui) |
-| 9 | Flux | ✅ | Pinia |
-| 10 | MVC | 🟡 | Обсуждение (Vue ближе к MVVM) |
-| 11 | Микрофронты | 🔴 | Обсуждение, не реализуем |
-| 12 | Способы разбить приложение | ✅ | FSD + микрофронты обсуждение |
-| 13 | WebWorker / ServiceWorker | ✅ | Импорт + PWA |
-| 14 | SSE vs WebSocket | ✅ | Бюджеты vs Мультивалютность |
-| 15 | Long-polling | 🟡 | Бюджеты (обсуждение альтернативы) |
-| 16 | Grafana / Sentry | ✅ | errorPlugin, Метрики успеха |
+| #   | Вопрос                          | Статус | Где разобрано                                       |
+| --- | ------------------------------- | ------ | --------------------------------------------------- |
+| 1   | SOLID на фронте                 | 🟡     | FSD (SRP, OCP, DIP)                                 |
+| 2   | KISS / DRY / YAGNI              | 🟡     | Архитектура                                         |
+| 3   | BEM                             | ✅     | CSS / Верстка                                       |
+| 4   | Паттерны проектирования         | ✅     | Архитектура (Observer, Strategy, Facade, Singleton) |
+| 5   | 3 группы паттернов              | ✅     | Архитектура                                         |
+| 6   | Frontend-паттерны в библиотеках | 🟡     | Pinia (Singleton), Vue Router (Strategy)            |
+| 7   | Антипаттерны                    | ✅     | Раздел 12.5                                         |
+| 8   | FSD, Breadcrumbs                | ✅     | Архитектура (Breadcrumbs → shared/ui)               |
+| 9   | Flux                            | ✅     | Pinia                                               |
+| 10  | MVC                             | 🟡     | Обсуждение (Vue ближе к MVVM)                       |
+| 11  | Микрофронты                     | 🔴     | Обсуждение, не реализуем                            |
+| 12  | Способы разбить приложение      | ✅     | FSD + микрофронты обсуждение                        |
+| 13  | WebWorker / ServiceWorker       | ✅     | Импорт + PWA                                        |
+| 14  | SSE vs WebSocket                | ✅     | Бюджеты vs Мультивалютность                         |
+| 15  | Long-polling                    | 🟡     | Бюджеты (обсуждение альтернативы)                   |
+| 16  | Grafana / Sentry                | ✅     | errorPlugin, Метрики успеха                         |
 
 ### 6. Computer Science
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Big O | ✅ | Транзакции + Раздел 12.6 |
-| 2 | Стек/очередь, FIFO/LIFO | ✅ | Undo-стек транзакций |
-| 3 | Hash table, bucket, коллизии | ✅ | Раздел 12.6 |
-| 4 | Способы разрешения коллизий | ✅ | Раздел 12.6 (chaining vs probing) |
-| 5 | Опасности рекурсии | ✅ | Категории |
-| 6 | Stack vs Heap | ✅ | Импорт |
-| 7 | GC, языки без него, алгоритмы | ✅ | Раздел 12.6 + Импорт |
-| 8 | Ссылочные типы | ✅ | Импорт (structured clone) |
-| 9 | Параллельность vs асинхронность | ✅ | Бюджеты |
-| 10 | Race condition | ✅ | Бюджеты + Раздел 12.6 (If-Match) |
-| 11 | Алгоритм `.sort` (TimSort) | ✅ | Раздел 12.6 |
-| 12 | OSI 7 уровней | ✅ | Раздел 12.6 |
-| 13 | Как работает HTTPS | 🟡 | Авторизация + Безопасность (HSTS) |
-| 14 | TCP vs UDP | ✅ | Раздел 12.6 |
+| #   | Вопрос                          | Статус | Где разобрано                     |
+| --- | ------------------------------- | ------ | --------------------------------- |
+| 1   | Big O                           | ✅     | Транзакции + Раздел 12.6          |
+| 2   | Стек/очередь, FIFO/LIFO         | ✅     | Undo-стек транзакций              |
+| 3   | Hash table, bucket, коллизии    | ✅     | Раздел 12.6                       |
+| 4   | Способы разрешения коллизий     | ✅     | Раздел 12.6 (chaining vs probing) |
+| 5   | Опасности рекурсии              | ✅     | Категории                         |
+| 6   | Stack vs Heap                   | ✅     | Импорт                            |
+| 7   | GC, языки без него, алгоритмы   | ✅     | Раздел 12.6 + Импорт              |
+| 8   | Ссылочные типы                  | ✅     | Импорт (structured clone)         |
+| 9   | Параллельность vs асинхронность | ✅     | Бюджеты                           |
+| 10  | Race condition                  | ✅     | Бюджеты + Раздел 12.6 (If-Match)  |
+| 11  | Алгоритм `.sort` (TimSort)      | ✅     | Раздел 12.6                       |
+| 12  | OSI 7 уровней                   | ✅     | Раздел 12.6                       |
+| 13  | Как работает HTTPS              | 🟡     | Авторизация + Безопасность (HSTS) |
+| 14  | TCP vs UDP                      | ✅     | Раздел 12.6                       |
 
 ### 7. Фреймворки и архитектура (React-вопросы)
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Фреймворк vs библиотека | 🟡 | Стек технологий (Vue — фреймворк) |
-| 2 | Реактивный ли React? | 🟡 | SSR раздел (pull vs push) |
-| 3 | Свой стейт-менеджер | ✅ | createStore (раздел 7.4) |
-| 4 | SSR — как работает | ✅ | Раздел 4.5 |
-| 5 | SSR / ISR / SSG / PPR | ✅ | Раздел 4.5 |
-| 6 | Vue 2 vs Vue 3 под капотом | ✅ | Раздел 4.5 (таблица) |
+| #   | Вопрос                     | Статус | Где разобрано                     |
+| --- | -------------------------- | ------ | --------------------------------- |
+| 1   | Фреймворк vs библиотека    | 🟡     | Стек технологий (Vue — фреймворк) |
+| 2   | Реактивный ли React?       | 🟡     | SSR раздел (pull vs push)         |
+| 3   | Свой стейт-менеджер        | ✅     | createStore (раздел 7.4)          |
+| 4   | SSR — как работает         | ✅     | Раздел 4.5                        |
+| 5   | SSR / ISR / SSG / PPR      | ✅     | Раздел 4.5                        |
+| 6   | Vue 2 vs Vue 3 под капотом | ✅     | Раздел 4.5 (таблица)              |
 
 ### 8. Процессы разработки
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | git fetch vs pull | ✅ | DevOps |
-| 2 | git blame | ✅ | DevOps |
-| 3 | git rebase vs merge | ✅ | DevOps |
-| 4 | Git Flow / Trunk Based | ✅ | DevOps |
-| 5 | git stash | ✅ | DevOps |
-| 6 | Linux, деплой, CI/CD | ✅ | DevOps |
-| 7 | Docker | ✅ | DevOps (multi-stage) |
-| 8 | nginx | ✅ | DevOps + Безопасность (CSP) |
-| 9 | Unit / Integration / E2E | ✅ | Тестирование (стек) |
-| 10 | Дебаг сложных багов | 🟡 | DevOps (DevTools, Sentry) |
+| #   | Вопрос                   | Статус | Где разобрано               |
+| --- | ------------------------ | ------ | --------------------------- |
+| 1   | git fetch vs pull        | ✅     | DevOps                      |
+| 2   | git blame                | ✅     | DevOps                      |
+| 3   | git rebase vs merge      | ✅     | DevOps                      |
+| 4   | Git Flow / Trunk Based   | ✅     | DevOps                      |
+| 5   | git stash                | ✅     | DevOps                      |
+| 6   | Linux, деплой, CI/CD     | ✅     | DevOps                      |
+| 7   | Docker                   | ✅     | DevOps (multi-stage)        |
+| 8   | nginx                    | ✅     | DevOps + Безопасность (CSP) |
+| 9   | Unit / Integration / E2E | ✅     | Тестирование (стек)         |
+| 10  | Дебаг сложных багов      | 🟡     | DevOps (DevTools, Sentry)   |
 
 ### 9. Практические задачи
 
-| # | Задача | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Debounce / Throttle | ✅ | useDebounce |
-| 2 | DeepClone | ✅ | Отчёты |
-| 3 | Flatten | 🟡 | Категории (упоминание) |
-| 4 | findUnique | 🟡 | Транзакции (упоминание) |
-| 5 | GroupBy | ✅ | groupBy утилита + tests |
-| 6 | Promise.all/allSettled/race реализация | 🟡 | Обсуждение |
-| 7 | fetchWithRetry | ✅ | Мультивалютность |
-| 8 | Задачи на console (event loop) | 🔴 | Требует отдельной подготовки |
-| 9 | Задачи на this/контекст/всплытие | 🔴 | Требует отдельной подготовки |
-| 10 | useDebounce | ✅ | Composables |
-| 11 | useFetch | ✅ | Composables |
-| 12 | useLocalStorage | ✅ | Composables |
-| 13 | useClickOutside | ✅ | Composables |
-| 14 | useIntersectionObserver | ✅ | Composables |
-| 15 | watch vs watchEffect задача | 🟡 | Composables (обсуждение) |
-| 16 | ref vs reactive потеря реактивности | 🟡 | Composables (обсуждение) |
-| 17 | Modal (Teleport + v-model + slots) | ✅ | AppModal |
-| 18 | Tabs (provide/inject) | ✅ | AppTabs |
-| 19 | InfiniteScroll | ✅ | InfiniteScroll |
-| 20 | v-model с модификатором | ✅ | InputMoney |
-| 21 | Input-обёртка (proxy attrs) | ✅ | AppInput |
-| 22 | Баг с key=index | ✅ | Транзакции |
-| 23 | KeepAlive — кеш формы | ✅ | Дашборд |
-| 24 | beforeEach guard | ✅ | Авторизация |
-| 25 | Breadcrumbs (route.matched) | ✅ | Маршрутизация |
-| 26 | Lazy loading с loading/error | ✅ | Маршрутизация |
-| 27 | Store корзины | ✅ | transactionStore (паттерн) |
-| 28 | storeToRefs — потеря реактивности | ✅ | Pinia Stores |
-| 29 | Плагин логирования Pinia | ✅ | piniaLoggerPlugin |
-| 30 | 10000 элементов — оптимизация | ✅ | VirtualScroll + v-memo |
-| 31 | defineAsyncComponent + fallback | ✅ | Дашборд |
-| 32 | v-lazy-img директива | ✅ | UI-kit |
-| 33 | getValueByKey (generics) | ✅ | Модели данных |
-| 34 | Свой Readonly/Partial | ✅ | DeepReadonly |
+| #   | Задача                                 | Статус | Где разобрано                |
+| --- | -------------------------------------- | ------ | ---------------------------- |
+| 1   | Debounce / Throttle                    | ✅     | useDebounce                  |
+| 2   | DeepClone                              | ✅     | Отчёты                       |
+| 3   | Flatten                                | 🟡     | Категории (упоминание)       |
+| 4   | findUnique                             | 🟡     | Транзакции (упоминание)      |
+| 5   | GroupBy                                | ✅     | groupBy утилита + tests      |
+| 6   | Promise.all/allSettled/race реализация | 🟡     | Обсуждение                   |
+| 7   | fetchWithRetry                         | ✅     | Мультивалютность             |
+| 8   | Задачи на console (event loop)         | 🔴     | Требует отдельной подготовки |
+| 9   | Задачи на this/контекст/всплытие       | 🔴     | Требует отдельной подготовки |
+| 10  | useDebounce                            | ✅     | Composables                  |
+| 11  | useFetch                               | ✅     | Composables                  |
+| 12  | useLocalStorage                        | ✅     | Composables                  |
+| 13  | useClickOutside                        | ✅     | Composables                  |
+| 14  | useIntersectionObserver                | ✅     | Composables                  |
+| 15  | watch vs watchEffect задача            | 🟡     | Composables (обсуждение)     |
+| 16  | ref vs reactive потеря реактивности    | 🟡     | Composables (обсуждение)     |
+| 17  | Modal (Teleport + v-model + slots)     | ✅     | AppModal                     |
+| 18  | Tabs (provide/inject)                  | ✅     | AppTabs                      |
+| 19  | InfiniteScroll                         | ✅     | InfiniteScroll               |
+| 20  | v-model с модификатором                | ✅     | InputMoney                   |
+| 21  | Input-обёртка (proxy attrs)            | ✅     | AppInput                     |
+| 22  | Баг с key=index                        | ✅     | Транзакции                   |
+| 23  | KeepAlive — кеш формы                  | ✅     | Дашборд                      |
+| 24  | beforeEach guard                       | ✅     | Авторизация                  |
+| 25  | Breadcrumbs (route.matched)            | ✅     | Маршрутизация                |
+| 26  | Lazy loading с loading/error           | ✅     | Маршрутизация                |
+| 27  | Store корзины                          | ✅     | transactionStore (паттерн)   |
+| 28  | storeToRefs — потеря реактивности      | ✅     | Pinia Stores                 |
+| 29  | Плагин логирования Pinia               | ✅     | piniaLoggerPlugin            |
+| 30  | 10000 элементов — оптимизация          | ✅     | VirtualScroll + v-memo       |
+| 31  | defineAsyncComponent + fallback        | ✅     | Дашборд                      |
+| 32  | v-lazy-img директива                   | ✅     | UI-kit                       |
+| 33  | getValueByKey (generics)               | ✅     | Модели данных                |
+| 34  | Свой Readonly/Partial                  | ✅     | DeepReadonly                 |
 
 ### 10. CSS
 
-| # | Вопрос | Статус | Где разобрано |
-|---|--------|--------|---------------|
-| 1 | Порядок селекторов | ✅ | CSS / Верстка |
-| 2 | Flex / Grid, responsive | ✅ | Дашборд |
-| 3 | Sticky header / footer | ✅ | AppHeader |
-| 4 | Центрирование | ✅ | Modal |
-| 5 | Карточки в сетке | ✅ | budgetCards |
+| #   | Вопрос                  | Статус | Где разобрано |
+| --- | ----------------------- | ------ | ------------- |
+| 1   | Порядок селекторов      | ✅     | CSS / Верстка |
+| 2   | Flex / Grid, responsive | ✅     | Дашборд       |
+| 3   | Sticky header / footer  | ✅     | AppHeader     |
+| 4   | Центрирование           | ✅     | Modal         |
+| 5   | Карточки в сетке        | ✅     | budgetCards   |
 
 ### Что осталось 🔴
 
