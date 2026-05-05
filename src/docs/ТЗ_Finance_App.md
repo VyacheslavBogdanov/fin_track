@@ -41,6 +41,8 @@
 -   Дать пользователю полный контроль над финансами: отслеживание транзакций, категоризация расходов, визуализация трендов
 -   Продемонстрировать все ключевые темы frontend-разработки из подготовки к собеседованиям
 -   Построить production-ready PWA с оффлайн-поддержкой
+-   **Полная адаптивность под все устройства:** mobile (от 320 px), tablet, desktop (до 1920+ px). Mobile-first вёрстка, поддержка touch и mouse, корректная работа на retina-дисплеях. См. §10 «Адаптивность».
+-   **Масштабируемость кода:** архитектура, готовая к росту команды и фич — FSD-слои с строгими границами, лимит ≤ 200 строк на файл, code splitting по роутам, lazy load тяжёлых зависимостей (графики, импорт CSV), публичные API через `index.ts`. Принцип: каждый новый разработчик может добавить фичу в свой слайс, не трогая чужие.
 
 **Монетизация (freemium):**
 
@@ -2318,6 +2320,85 @@ Inline style (1000) > ID (100) > Class/Pseudo-class/Attribute (10) > Element/Pse
 
 !important > inline > #id > .class > tag
 ```
+
+### Адаптивность (mobile-first, брейкпоинты)
+
+**Подход:** Mobile-first — базовые стили под mobile, расширения через `min-width`-медиа-запросы. Поддержка viewport от 320 px (старые/маленькие телефоны) до 1920+ px (большие десктопы и 4K).
+
+**Брейкпоинты проекта** (единый источник — `src/app/styles/_breakpoints.scss`):
+
+| Миксин    | Диапазон    | Устройства                      |
+| --------- | ----------- | ------------------------------- |
+| `mobile`  | ≤ 480 px    | Телефоны (portrait)             |
+| `tablet`  | 481–1024 px | Телефоны (landscape) и планшеты |
+| `desktop` | ≥ 1025 px   | Лэптопы и мониторы              |
+| `wide`    | ≥ 1440 px   | Большие десктопы                |
+
+```scss
+// _breakpoints.scss
+@mixin mobile {
+	@media (max-width: 480px) {
+		@content;
+	}
+}
+@mixin tablet {
+	@media (min-width: 481px) and (max-width: 1024px) {
+		@content;
+	}
+}
+@mixin desktop {
+	@media (min-width: 1025px) {
+		@content;
+	}
+}
+@mixin wide {
+	@media (min-width: 1440px) {
+		@content;
+	}
+}
+
+// Использование: mobile-first
+.transaction-list {
+	padding: 12px; // default — mobile
+	@include desktop {
+		padding: 24px;
+	}
+}
+```
+
+**Container Queries** для компонентов, которые должны адаптироваться к размеру **контейнера**, а не viewport (например, виджеты дашборда внутри resizable-сетки):
+
+```scss
+.budget-card {
+	container-type: inline-size;
+}
+.budget-card__bar {
+	@container (max-width: 320px) {
+		display: none; // прячем прогресс-бар в узких карточках
+	}
+}
+```
+
+**Viewport meta** в `index.html`:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+```
+
+**Touch-targets** (a11y + mobile UX): минимум **44 × 44 px** кликабельная зона (WCAG 2.5.5). Для иконочных кнопок — добавлять padding или прозрачный увеличенный hit-zone.
+
+**Что проверяется при ревью:**
+
+-   Открыли в DevTools (Responsive mode) на 320 / 375 / 768 / 1024 / 1440 / 1920 px — нет горизонтального скролла, не ломается layout.
+-   На touch-устройстве (или эмуляторе) все кликабельные элементы доступны пальцем (≥ 44 px).
+-   Шрифты и отступы не «прыгают» при ресайзе (плавные `clamp()` или `vw`-юниты, где уместно).
+-   Графики (Chart.js / ECharts) пересоздаются по `ResizeObserver`, а не по `window.resize`.
+
+**Запрещено:**
+
+-   Mobile detection через `navigator.userAgent` (ломается, провоцирует hydration mismatch). Только CSS media queries и feature detection.
+-   Жёсткие `width` / `height` в пикселях для главных контейнеров — использовать `min-` / `max-` / `clamp()` / `%` / `fr`.
+-   `max-width`-каскад как основа стилей (только для точечных override'ов поверх mobile-first базы).
 
 ---
 
