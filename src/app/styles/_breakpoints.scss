@@ -1,0 +1,47 @@
+// [Собес: CSS → responsive design / mobile-first / media queries]
+//
+// Соглашение: компонент пишет базовые стили под mobile (320 px+),
+// а расширения наслаивает через `@include tablet-up { ... }`.
+//
+// Использование:
+//   @use '@/app/styles/breakpoints' as *;
+//   .card {
+//     padding: var(--space-2);
+//     @include tablet-up { padding: var(--space-4); }
+//   }
+
+$bp-mobile-max: 480px;
+$bp-tablet-min: 481px;
+$bp-tablet-max: 1024px;
+$bp-desktop-min: 1025px;
+$bp-wide-min: 1440px;
+
+@mixin tablet-up {
+	@media (min-width: $bp-tablet-min) {
+		@content;
+	}
+}
+
+@mixin desktop-up {
+	@media (min-width: $bp-desktop-min) {
+		@content;
+	}
+}
+
+@mixin wide-up {
+	@media (min-width: $bp-wide-min) {
+		@content;
+	}
+}
+
+@mixin mobile-only {
+	@media (max-width: $bp-mobile-max) {
+		@content;
+	}
+}
+
+@mixin tablet-only {
+	@media (min-width: $bp-tablet-min) and (max-width: $bp-tablet-max) {
+		@content;
+	}
+}

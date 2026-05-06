@@ -45,12 +45,12 @@
 
 ### 0.3. Глобальные стили
 
--   [ ] `app/styles/_reset.scss` — modern CSS reset.
--   [ ] `app/styles/_variables.scss` — палитра, типографика, spacing-scale.
--   [ ] `app/styles/_breakpoints.scss` — миксины `mobile` / `tablet` / `desktop` / `wide` (см. conventions §11.5).
--   [ ] `app/styles/_mixins.scss` — общие миксины (focus-ring, truncate, scrollbar).
--   [ ] `app/styles/index.scss` — собирает всё через `@use`.
--   [ ] Подключить `index.scss` в `app/index.ts`.
+-   [x] `app/styles/_reset.scss` — modern CSS reset.
+-   [x] `app/styles/_variables.scss` — палитра, типографика, spacing-scale.
+-   [x] `app/styles/_breakpoints.scss` — миксины `mobile` / `tablet` / `desktop` / `wide` (см. conventions §11.5).
+-   [x] `app/styles/_mixins.scss` — общие миксины (focus-ring, truncate, scrollbar).
+-   [x] `app/styles/index.scss` — собирает всё через `@use`.
+-   [x] Подключить `index.scss` в `app/index.ts`.
 
 ### 0.4. Базовый Router
 
