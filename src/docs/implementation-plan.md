@@ -54,9 +54,9 @@
 
 ### 0.4. Базовый Router
 
--   [ ] `app/providers/router.ts` — `createRouter` + `createWebHistory`.
--   [ ] Роут-плейсхолдеры для всех будущих страниц (lazy-импорт): `/`, `/transactions`, `/budget`, `/reports`, `/settings`, `/auth`, `/:pathMatch(.*)*`.
--   [ ] Глобальный `beforeEach` (пока пустой; auth-guard добавим в 1.3).
+-   [x] `app/providers/router.ts` — `createRouter` + `createWebHistory`.
+-   [x] Роут-плейсхолдеры для всех будущих страниц (lazy-импорт): `/`, `/transactions`, `/budget`, `/reports`, `/settings`, `/auth`, `/:pathMatch(.*)*`.
+-   [x] Глобальный `beforeEach` (пока пустой; auth-guard добавим в 1.3).
 
 ### 0.5. Базовая Pinia
 
