@@ -30,19 +30,18 @@
 
 ### 0.1. Инициализация зависимостей
 
--   [ ] Добавить runtime-зависимости: `vue-router@4`, `pinia`, `@vueuse/core`, `zod`.
--   [ ] Добавить dev-зависимости: `vitest`, `@vue/test-utils`, `jsdom`, `@vitest/coverage-v8`, `msw`.
--   [ ] Добавить PWA: `vite-plugin-pwa`, `workbox-window`.
--   [ ] Добавить SCSS: `sass` (если нет).
--   [ ] Добавить husky + lint-staged: `pre-commit` гоняет `lint-staged` (eslint --fix + prettier --write на изменённых файлах).
--   [ ] Скрипт `npm test` в `package.json` → `vitest run`; `npm run test:watch` → `vitest`.
+-   [x] Добавить runtime-зависимости: `vue-router@4`, `pinia`, `@vueuse/core`, `zod`.
+-   [x] Добавить dev-зависимости: `vitest`, `@vue/test-utils`, `jsdom`, `@vitest/coverage-v8`, `msw`.
+-   [x] Добавить PWA: `vite-plugin-pwa`, `workbox-window`.
+-   [x] Добавить SCSS: `sass` (если нет).
+-   [x] Добавить husky + lint-staged: `pre-commit` гоняет `lint-staged` (eslint --fix + prettier --write на изменённых файлах).
+-   [x] Скрипт `npm test` в `package.json` → `vitest run`; `npm run test:watch` → `vitest`.
 
 ### 0.2. FSD-каркас
 
--   [ ] Создать структуру: `src/{app,pages,widgets,features,entities,shared}` (по §3 ТЗ).
--   [ ] В `shared/`: подкаталоги `ui/`, `composables/`, `lib/`, `api/`, `config/`, `types/`, `directives/`.
--   [ ] В каждом слайсе будущих entities/features — заготовка `index.ts` с `export {}` (public API).
--   [ ] ESLint-правило (или хотя бы README в каждом слое) о запрете cross-import между слайсами одного слоя.
+-   [x] Создать структуру: `src/{app,pages,widgets,features,entities,shared}` (по §3 ТЗ).
+-   [x] В `shared/`: подкаталоги `ui/`, `composables/`, `lib/`, `api/`, `config/`, `types/`, `directives/`.
+-   [x] ESLint-правило (или хотя бы README в каждом слое) о запрете cross-import между слайсами одного слоя.
 
 ### 0.3. Глобальные стили
 
@@ -166,6 +165,7 @@
 
 ### 1.9. Definition of Done MVP
 
+-   [ ] У каждого созданного в MVP слайса (`entities/*`, `features/*`) есть `index.ts` с public API; импорты во внутренности слайса извне отсутствуют.
 -   [ ] Lighthouse desktop: Performance ≥ 80, A11y ≥ 90, Best Practices ≥ 90, SEO ≥ 90.
 -   [ ] Lighthouse mobile: Performance ≥ 70, A11y ≥ 90.
 -   [ ] Bundle initial < 200 KB gzip.
