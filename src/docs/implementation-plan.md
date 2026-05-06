@@ -60,8 +60,8 @@
 
 ### 0.5. Базовая Pinia
 
--   [ ] `app/providers/pinia.ts` — `createPinia()`.
--   [ ] Подключение в `app/index.ts`: `app.use(pinia).use(router).mount('#app')`.
+-   [x] `app/providers/pinia.ts` — `createPinia()`.
+-   [x] Подключение в `app/index.ts`: `app.use(pinia).use(router).mount('#app')`.
 
 ### 0.6. Базовый App-каркас
 
