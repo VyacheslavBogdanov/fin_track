@@ -65,9 +65,9 @@
 
 ### 0.6. Базовый App-каркас
 
--   [ ] `App.vue` — `<RouterView />` + базовый layout-плейсхолдер.
--   [ ] `index.html` — viewport meta `width=device-width, initial-scale=1, viewport-fit=cover`.
--   [ ] `index.html` — `<title>FinTrack</title>`, `<meta name="theme-color">`, OG-теги-заглушки.
+-   [x] `App.vue` — `<RouterView />` + базовый layout-плейсхолдер.
+-   [x] `index.html` — viewport meta `width=device-width, initial-scale=1, viewport-fit=cover`.
+-   [x] `index.html` — `<title>FinTrack</title>`, `<meta name="theme-color">`, OG-теги-заглушки.
 
 ### 0.7. CI baseline
 
@@ -76,9 +76,9 @@
 
 ### 0.8. DoD Phase 0
 
--   [ ] `npm run dev` поднимается; `App.vue` рендерится.
--   [ ] `npm run lint && npm run format && npm run type-check && npm run build && npm test` — всё зелёное.
--   [ ] FSD-папки на месте, `_breakpoints.scss` подключён.
+-   [x] `npm run dev` поднимается; `App.vue` рендерится.
+-   [x] `npm run lint && npm run format && npm run type-check && npm run build && npm test` — всё зелёное.
+-   [x] FSD-папки на месте, `_breakpoints.scss` подключён.
 -   [ ] CI на тестовом PR — зелёный.
 
 ---
