@@ -1,13 +1,16 @@
 <template>
-	<div id="app">
-		<h1 class="title">TEMPLATE_VUE_3_VITE</h1>
-		<h2 class="title">TEMPLATE_VUE_3_VITE</h2>
-		<h3 class="title">TEMPLATE_VUE_3_VITE</h3>
-		<h4 class="title">TEMPLATE_VUE_3_VITE</h4>
-		<h5 class="title">TEMPLATE_VUE_3_VITE</h5>
+	<div class="app">
+		<RouterView />
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { RouterView } from 'vue-router';
+</script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.app {
+	min-height: 100vh;
+	background: var(--bg-primary);
+}
+</style>

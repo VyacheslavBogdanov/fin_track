@@ -30,57 +30,56 @@
 
 ### 0.1. Инициализация зависимостей
 
--   [ ] Добавить runtime-зависимости: `vue-router@4`, `pinia`, `@vueuse/core`, `zod`.
--   [ ] Добавить dev-зависимости: `vitest`, `@vue/test-utils`, `jsdom`, `@vitest/coverage-v8`, `msw`.
--   [ ] Добавить PWA: `vite-plugin-pwa`, `workbox-window`.
--   [ ] Добавить SCSS: `sass` (если нет).
--   [ ] Добавить husky + lint-staged: `pre-commit` гоняет `lint-staged` (eslint --fix + prettier --write на изменённых файлах).
--   [ ] Скрипт `npm test` в `package.json` → `vitest run`; `npm run test:watch` → `vitest`.
+-   [x] Добавить runtime-зависимости: `vue-router@4`, `pinia`, `@vueuse/core`, `zod`.
+-   [x] Добавить dev-зависимости: `vitest`, `@vue/test-utils`, `jsdom`, `@vitest/coverage-v8`, `msw`.
+-   [x] Добавить PWA: `vite-plugin-pwa`, `workbox-window`.
+-   [x] Добавить SCSS: `sass` (если нет).
+-   [x] Добавить husky + lint-staged: `pre-commit` гоняет `lint-staged` (eslint --fix + prettier --write на изменённых файлах).
+-   [x] Скрипт `npm test` в `package.json` → `vitest run`; `npm run test:watch` → `vitest`.
 
 ### 0.2. FSD-каркас
 
--   [ ] Создать структуру: `src/{app,pages,widgets,features,entities,shared}` (по §3 ТЗ).
--   [ ] В `shared/`: подкаталоги `ui/`, `composables/`, `lib/`, `api/`, `config/`, `types/`, `directives/`.
--   [ ] В каждом слайсе будущих entities/features — заготовка `index.ts` с `export {}` (public API).
--   [ ] ESLint-правило (или хотя бы README в каждом слое) о запрете cross-import между слайсами одного слоя.
+-   [x] Создать структуру: `src/{app,pages,widgets,features,entities,shared}` (по §3 ТЗ).
+-   [x] В `shared/`: подкаталоги `ui/`, `composables/`, `lib/`, `api/`, `config/`, `types/`, `directives/`.
+-   [x] ESLint-правило (или хотя бы README в каждом слое) о запрете cross-import между слайсами одного слоя.
 
 ### 0.3. Глобальные стили
 
--   [ ] `app/styles/_reset.scss` — modern CSS reset.
--   [ ] `app/styles/_variables.scss` — палитра, типографика, spacing-scale.
--   [ ] `app/styles/_breakpoints.scss` — миксины `mobile` / `tablet` / `desktop` / `wide` (см. conventions §11.5).
--   [ ] `app/styles/_mixins.scss` — общие миксины (focus-ring, truncate, scrollbar).
--   [ ] `app/styles/index.scss` — собирает всё через `@use`.
--   [ ] Подключить `index.scss` в `app/index.ts`.
+-   [x] `app/styles/_reset.scss` — modern CSS reset.
+-   [x] `app/styles/_variables.scss` — палитра, типографика, spacing-scale.
+-   [x] `app/styles/_breakpoints.scss` — миксины `mobile` / `tablet` / `desktop` / `wide` (см. conventions §11.5).
+-   [x] `app/styles/_mixins.scss` — общие миксины (focus-ring, truncate, scrollbar).
+-   [x] `app/styles/index.scss` — собирает всё через `@use`.
+-   [x] Подключить `index.scss` в `app/index.ts`.
 
 ### 0.4. Базовый Router
 
--   [ ] `app/providers/router.ts` — `createRouter` + `createWebHistory`.
--   [ ] Роут-плейсхолдеры для всех будущих страниц (lazy-импорт): `/`, `/transactions`, `/budget`, `/reports`, `/settings`, `/auth`, `/:pathMatch(.*)*`.
--   [ ] Глобальный `beforeEach` (пока пустой; auth-guard добавим в 1.3).
+-   [x] `app/providers/router.ts` — `createRouter` + `createWebHistory`.
+-   [x] Роут-плейсхолдеры для всех будущих страниц (lazy-импорт): `/`, `/transactions`, `/budget`, `/reports`, `/settings`, `/auth`, `/:pathMatch(.*)*`.
+-   [x] Глобальный `beforeEach` (пока пустой; auth-guard добавим в 1.3).
 
 ### 0.5. Базовая Pinia
 
--   [ ] `app/providers/pinia.ts` — `createPinia()`.
--   [ ] Подключение в `app/index.ts`: `app.use(pinia).use(router).mount('#app')`.
+-   [x] `app/providers/pinia.ts` — `createPinia()`.
+-   [x] Подключение в `app/index.ts`: `app.use(pinia).use(router).mount('#app')`.
 
 ### 0.6. Базовый App-каркас
 
--   [ ] `App.vue` — `<RouterView />` + базовый layout-плейсхолдер.
--   [ ] `index.html` — viewport meta `width=device-width, initial-scale=1, viewport-fit=cover`.
--   [ ] `index.html` — `<title>FinTrack</title>`, `<meta name="theme-color">`, OG-теги-заглушки.
+-   [x] `App.vue` — `<RouterView />` + базовый layout-плейсхолдер.
+-   [x] `index.html` — viewport meta `width=device-width, initial-scale=1, viewport-fit=cover`.
+-   [x] `index.html` — `<title>FinTrack</title>`, `<meta name="theme-color">`, OG-теги-заглушки.
 
 ### 0.7. CI baseline
 
--   [ ] `.github/workflows/ci.yml` — на pull_request: `npm ci → lint → type-check → test → build`.
--   [ ] Branch protection на `main`: require CI green, require 1 review.
+-   [x] `.github/workflows/ci.yml` — на pull_request: `npm ci → lint → type-check → test → build`.
+-   [x] Branch protection на `main`: require CI green, require 1 review. _(фактически: 0 reviews — single-developer setup; require status check `Lint • Type-check • Test • Build` strict; force-push/deletion заблокированы; репо переведён в public)_
 
 ### 0.8. DoD Phase 0
 
--   [ ] `npm run dev` поднимается; `App.vue` рендерится.
--   [ ] `npm run lint && npm run format && npm run type-check && npm run build && npm test` — всё зелёное.
--   [ ] FSD-папки на месте, `_breakpoints.scss` подключён.
--   [ ] CI на тестовом PR — зелёный.
+-   [x] `npm run dev` поднимается; `App.vue` рендерится.
+-   [x] `npm run lint && npm run format && npm run type-check && npm run build && npm test` — всё зелёное.
+-   [x] FSD-папки на месте, `_breakpoints.scss` подключён.
+-   [x] CI на тестовом PR — зелёный.
 
 ---
 
@@ -166,6 +165,7 @@
 
 ### 1.9. Definition of Done MVP
 
+-   [ ] У каждого созданного в MVP слайса (`entities/*`, `features/*`) есть `index.ts` с public API; импорты во внутренности слайса извне отсутствуют.
 -   [ ] Lighthouse desktop: Performance ≥ 80, A11y ≥ 90, Best Practices ≥ 90, SEO ≥ 90.
 -   [ ] Lighthouse mobile: Performance ≥ 70, A11y ≥ 90.
 -   [ ] Bundle initial < 200 KB gzip.
