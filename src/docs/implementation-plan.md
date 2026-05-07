@@ -72,7 +72,7 @@
 ### 0.7. CI baseline
 
 -   [x] `.github/workflows/ci.yml` — на pull_request: `npm ci → lint → type-check → test → build`.
--   [ ] Branch protection на `main`: require CI green, require 1 review. _(заблокировано: классическая branch protection требует GitHub Pro для private-репо; настроить через UI после публикации репо или через Rulesets вручную)_
+-   [x] Branch protection на `main`: require CI green, require 1 review. _(фактически: 0 reviews — single-developer setup; require status check `Lint • Type-check • Test • Build` strict; force-push/deletion заблокированы; репо переведён в public)_
 
 ### 0.8. DoD Phase 0
 
