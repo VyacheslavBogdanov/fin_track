@@ -71,15 +71,15 @@
 
 ### 0.7. CI baseline
 
--   [ ] `.github/workflows/ci.yml` — на pull_request: `npm ci → lint → type-check → test → build`.
--   [ ] Branch protection на `main`: require CI green, require 1 review.
+-   [x] `.github/workflows/ci.yml` — на pull_request: `npm ci → lint → type-check → test → build`.
+-   [ ] Branch protection на `main`: require CI green, require 1 review. _(заблокировано: классическая branch protection требует GitHub Pro для private-репо; настроить через UI после публикации репо или через Rulesets вручную)_
 
 ### 0.8. DoD Phase 0
 
 -   [x] `npm run dev` поднимается; `App.vue` рендерится.
 -   [x] `npm run lint && npm run format && npm run type-check && npm run build && npm test` — всё зелёное.
 -   [x] FSD-папки на месте, `_breakpoints.scss` подключён.
--   [ ] CI на тестовом PR — зелёный.
+-   [x] CI на тестовом PR — зелёный.
 
 ---
 
