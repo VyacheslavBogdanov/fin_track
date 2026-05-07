@@ -89,12 +89,12 @@
 
 ### 1.1. Shared UI-kit (минимум)
 
--   [ ] `AppButton` (variants `primary`/`secondary`/`ghost`/`danger`, sizes `sm`/`md`/`lg`, `loading`, `disabled`, fallthrough attrs) + якорь `Vue → fallthrough attrs / $attrs` + unit-тесты.
--   [ ] `AppInput` (`defineModel`, label, error, hint, типы text/number/email/password) + якорь `Vue → defineModel + кастомный модификатор` + тесты.
--   [ ] `AppModal` (`Teleport to=body`, focus trap, ESC-закрытие, click-outside-to-close, ARIA `role=dialog`, `aria-modal`) + якорь `Vue → Teleport`, `a11y → focus trap` + тесты.
--   [ ] `AppTabs` + `AppTab` (`provide`/`inject` для активной вкладки, ARIA WAI-tabs, клавиатурная навигация Arrow/Home/End) + якорь `Vue → provide/inject`, `a11y → keyboard nav` + тесты.
--   [ ] `AppCard`, `AppSpinner` — простые презентационные.
--   [ ] Все компоненты адаптивны (см. cross-cutting C.2).
+-   [x] `AppButton` (variants `primary`/`secondary`/`ghost`/`danger`, sizes `sm`/`md`/`lg`, `loading`, `disabled`, fallthrough attrs) + якорь `Vue → fallthrough attrs / $attrs` + unit-тесты.
+-   [x] `AppInput` (`defineModel`, label, error, hint, типы text/number/email/password) + якорь `Vue → defineModel + кастомный модификатор` + тесты.
+-   [x] `AppModal` (`Teleport to=body`, focus trap, ESC-закрытие, click-outside-to-close, ARIA `role=dialog`, `aria-modal`) + якорь `Vue → Teleport`, `a11y → focus trap` + тесты.
+-   [x] `AppTabs` + `AppTab` (`provide`/`inject` для активной вкладки, ARIA WAI-tabs, клавиатурная навигация Arrow/Home/End) + якорь `Vue → provide/inject`, `a11y → keyboard nav` + тесты.
+-   [x] `AppCard`, `AppSpinner` — простые презентационные.
+-   [x] Все компоненты адаптивны (см. cross-cutting C.2).
 
 ### 1.2. Адаптивный layout
 
