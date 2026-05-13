@@ -1,9 +1,15 @@
 // [Собес: Vue Router → createWebHistory vs createWebHashHistory]
 // [Собес: Vue Router → lazy-импорт компонентов / code splitting]
-// [Собес: Vue Router → navigation guards (beforeEach)]
+// [Собес: Vue Router → navigation guards (beforeEach + query.redirect)]
 // [Собес: Vue Router → typed route meta (declaration merging)]
 
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
+import {
+	createRouter,
+	createWebHistory,
+	type NavigationGuard,
+	type RouteRecordRaw,
+} from 'vue-router';
+import { useUserStore } from '@/entities/user';
 
 declare module 'vue-router' {
 	interface RouteMeta {
@@ -59,6 +65,21 @@ const routes: RouteRecordRaw[] = [
 	},
 ];
 
+export const authGuard: NavigationGuard = (to) => {
+	const store = useUserStore();
+
+	if (to.meta.requiresAuth && !store.isAuthenticated) {
+		return { name: 'Auth', query: { redirect: to.fullPath } };
+	}
+
+	if (to.meta.requiresGuest && store.isAuthenticated) {
+		return { name: 'Dashboard' };
+	}
+
+	// TODO Phase 2+: requiresPremium — проверка флага user.isPremium после расширения модели.
+	return true;
+};
+
 export const router = createRouter({
 	history: createWebHistory(),
 	routes,
@@ -67,7 +88,4 @@ export const router = createRouter({
 	},
 });
 
-router.beforeEach(() => {
-	// auth/guest/premium-логика добавится в Phase 1.3
-	// (см. implementation-plan.md §1.3 «Авторизация»)
-});
+router.beforeEach(authGuard);

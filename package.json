@@ -29,6 +29,7 @@
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-prettier": "^5.2.1",
 		"express": "^4.21.1",
+		"lucide-vue-next": "^1.0.0",
 		"pinia": "^3.0.4",
 		"uuid": "^11.0.3",
 		"vue": "^3.5.12",
@@ -69,6 +70,11 @@
 		],
 		"*.{scss,md,json,html,yml,yaml}": [
 			"prettier --write"
+		]
+	},
+	"msw": {
+		"workerDirectory": [
+			"public"
 		]
 	}
 }

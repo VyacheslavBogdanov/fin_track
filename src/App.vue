@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
+import DefaultLayout from '@/app/layouts/DefaultLayout.vue';
 </script>
 
 <template>
-	<div class="app">
+	<DefaultLayout>
 		<RouterView />
-	</div>
+	</DefaultLayout>
 </template>
-
-<style lang="scss" scoped>
-.app {
-	min-height: 100vh;
-	background: var(--bg-primary);
-}
-</style>

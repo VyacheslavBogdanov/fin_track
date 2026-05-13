@@ -98,23 +98,23 @@
 
 ### 1.2. Адаптивный layout
 
--   [ ] `widgets/Header/AppHeader.vue` — sticky, бургер-меню на mobile, full-nav на desktop.
--   [ ] `widgets/Sidebar/AppSidebar.vue` — drawer с overlay на mobile/tablet, постоянный на desktop.
--   [ ] `app/layouts/DefaultLayout.vue` — CSS Grid `header / aside / main / footer`, перестроение на mobile.
--   [ ] Проверка: 320 / 375 / 768 / 1024 / 1440 / 1920 px без горизонтального скролла, бургер работает на touch.
+-   [x] `widgets/Header/AppHeader.vue` — sticky, бургер-меню на mobile, full-nav на desktop.
+-   [x] `widgets/Sidebar/AppSidebar.vue` — drawer с overlay на mobile/tablet, постоянный на desktop.
+-   [x] `app/layouts/DefaultLayout.vue` — CSS Grid `header / aside / main / footer`, перестроение на mobile.
+-   [x] Проверка: 320 / 375 / 768 / 1024 / 1440 / 1920 px без горизонтального скролла, бургер работает на touch.
 
 ### 1.3. Авторизация (упрощённая)
 
--   [ ] `entities/user/model` — тип `User`, `useUserStore` (текущий пользователь).
--   [ ] `entities/user/api` — `login`, `register`, `refresh`, `logout` (mock через MSW).
--   [ ] `features/auth-by-credentials/ui/LoginForm.vue` — форма + валидация (zod).
--   [ ] `features/auth-by-credentials/ui/RegisterForm.vue`.
--   [ ] `features/auth-by-credentials/model/useAuth.ts` — composable: `login`, `logout`, `isAuthenticated`.
--   [ ] `pages/AuthPage/AuthPage.vue` — табы login/register, адаптивна.
--   [ ] Router: `meta.requiresAuth`, `beforeEach` guard, `replace` после логина.
--   [ ] Interceptor для axios/fetch: `Authorization: Bearer ...` из памяти; auto-refresh при 401.
--   [ ] Якоря: `JS → замыкание (interceptor)`, `Vue Router → guards`, `Vue Router → push vs replace`, `Browser → cookie HttpOnly`.
--   [ ] Тесты: `useAuth.login` (успех/401), guard блокирует приватный роут.
+-   [x] `entities/user/model` — тип `User`, `useUserStore` (текущий пользователь).
+-   [x] `entities/user/api` — `login`, `register`, `refresh`, `logout` (mock через MSW).
+-   [x] `features/auth-by-credentials/ui/LoginForm.vue` — форма + валидация (zod).
+-   [x] `features/auth-by-credentials/ui/RegisterForm.vue`.
+-   [x] `features/auth-by-credentials/model/useAuth.ts` — composable: `login`, `logout`, `isAuthenticated`.
+-   [x] `pages/AuthPage/AuthPage.vue` — табы login/register, адаптивна.
+-   [x] Router: `meta.requiresAuth`, `beforeEach` guard, `replace` после логина.
+-   [x] Interceptor для axios/fetch: `Authorization: Bearer ...` из памяти; auto-refresh при 401.
+-   [x] Якоря: `JS → замыкание (interceptor)`, `Vue Router → guards`, `Vue Router → push vs replace`, `Browser → cookie HttpOnly`.
+-   [x] Тесты: `useAuth.login` (успех/401), guard блокирует приватный роут.
 
 ### 1.4. Транзакции — CRUD
 
