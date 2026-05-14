@@ -1,4 +1,4 @@
-// [Собес: TypeScript → zod schema + z.infer (один источник истины для формы)]
+// [Собес: TypeScript → zod schema + z.infer (один источник истины для form-DTO)]
 // [Собес: Zod → cross-field валидация через .refine (transfer требует toAccountId)]
 
 import { z } from 'zod';
@@ -6,7 +6,7 @@ import { z } from 'zod';
 const TransactionTypeSchema = z.enum(['income', 'expense', 'transfer']);
 const CurrencySchema = z.enum(['RUB', 'USD', 'EUR', 'GBP', 'CNY']);
 
-export const addTransactionSchema = z
+export const transactionFormSchema = z
 	.object({
 		type: TransactionTypeSchema,
 		amount: z.number().positive('Сумма должна быть больше 0'),
@@ -23,4 +23,4 @@ export const addTransactionSchema = z
 		path: ['toAccountId'],
 	});
 
-export type AddTransactionFormInput = z.infer<typeof addTransactionSchema>;
+export type TransactionFormInput = z.infer<typeof transactionFormSchema>;

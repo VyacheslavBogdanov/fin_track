@@ -1,58 +1,54 @@
 <script setup lang="ts">
-// [Собес: Vue → v-model на компоненте (AppInput через defineModel)]
-// [Собес: Vue → v-if/v-show (условный показ toAccountId для transfer)]
-// [Собес: Vue → defineEmits (типизированный emit success)]
-// [Собес: JS → Date.toISOString() (нормализация даты в ISO 8601 перед отправкой)]
+// [Собес: Vue → defineProps + defineEmits (типизированный API компонента)]
+// [Собес: Vue → key для пересоздания формы при смене prop (родитель задаёт :key="tx.id")]
+// [Собес: Pinia → action update через api (server-side timestamp обновляется)]
 
 import { AppButton, AppInput } from '@/shared/ui';
 import {
 	useTransactionStore,
 	transactionFormSchema,
+	type Transaction,
 	type TransactionFormInput,
 } from '@/entities/transaction';
-import { useUserStore } from '@/entities/user';
 import { useZodForm } from '@/shared/composables/useZodForm';
 
-const emit = defineEmits<{ success: [] }>();
+const props = defineProps<{ transaction: Transaction }>();
+const emit = defineEmits<{ success: []; cancel: [] }>();
 
 const transactionStore = useTransactionStore();
-const userStore = useUserStore();
 
-const todayIsoDate = new Date().toISOString().slice(0, 10);
-
-const { values, errors, isSubmitting, serverError, handleSubmit, reset } =
+const { values, errors, isSubmitting, serverError, handleSubmit } =
 	useZodForm<TransactionFormInput>(transactionFormSchema, {
-		type: 'expense',
-		amount: 0,
-		currency: userStore.user?.baseCurrency ?? 'RUB',
-		categoryId: '',
-		accountId: '',
-		description: '',
-		date: todayIsoDate,
-		tags: [],
-		toAccountId: undefined,
+		type: props.transaction.type,
+		amount: props.transaction.amount,
+		currency: props.transaction.currency,
+		categoryId: props.transaction.categoryId,
+		accountId: props.transaction.accountId,
+		description: props.transaction.description,
+		date: props.transaction.date.slice(0, 10),
+		tags: [...props.transaction.tags],
+		toAccountId: props.transaction.toAccountId,
 	});
 
 const submit = handleSubmit(async (input) => {
-	await transactionStore.add({
+	await transactionStore.update(props.transaction.id, {
 		...input,
 		date: new Date(input.date).toISOString(),
 		toAccountId: input.type === 'transfer' ? input.toAccountId : undefined,
 	});
-	reset();
 	emit('success');
 });
 </script>
 
 <template>
-	<form class="tx-form" novalidate @submit="submit">
-		<p v-if="serverError" class="tx-form__server-error" role="alert">
+	<form class="tx-edit-form" novalidate @submit="submit">
+		<p v-if="serverError" class="tx-edit-form__server-error" role="alert">
 			{{ serverError }}
 		</p>
 
-		<label class="tx-form__field">
-			<span class="tx-form__label">Тип</span>
-			<select v-model="values.type" class="tx-form__select">
+		<label class="tx-edit-form__field">
+			<span class="tx-edit-form__label">Тип</span>
+			<select v-model="values.type" class="tx-edit-form__select">
 				<option value="expense">Расход</option>
 				<option value="income">Доход</option>
 				<option value="transfer">Перевод</option>
@@ -68,9 +64,9 @@ const submit = handleSubmit(async (input) => {
 			:error="errors.amount"
 		/>
 
-		<label class="tx-form__field">
-			<span class="tx-form__label">Валюта</span>
-			<select v-model="values.currency" class="tx-form__select">
+		<label class="tx-edit-form__field">
+			<span class="tx-edit-form__label">Валюта</span>
+			<select v-model="values.currency" class="tx-edit-form__select">
 				<option value="RUB">RUB</option>
 				<option value="USD">USD</option>
 				<option value="EUR">EUR</option>
@@ -92,20 +88,30 @@ const submit = handleSubmit(async (input) => {
 
 		<AppInput v-model="values.description" label="Описание" :error="errors.description" />
 
-		<label class="tx-form__field">
-			<span class="tx-form__label">Дата</span>
-			<input v-model="values.date" type="date" class="tx-form__date" />
-			<span v-if="errors.date" class="tx-form__error">{{ errors.date }}</span>
+		<label class="tx-edit-form__field">
+			<span class="tx-edit-form__label">Дата</span>
+			<input v-model="values.date" type="date" class="tx-edit-form__date" />
+			<span v-if="errors.date" class="tx-edit-form__error">{{ errors.date }}</span>
 		</label>
 
-		<AppButton type="submit" :loading="isSubmitting" :disabled="isSubmitting">
-			Добавить
-		</AppButton>
+		<div class="tx-edit-form__actions">
+			<AppButton
+				type="button"
+				variant="ghost"
+				:disabled="isSubmitting"
+				@click="emit('cancel')"
+			>
+				Отмена
+			</AppButton>
+			<AppButton type="submit" :loading="isSubmitting" :disabled="isSubmitting">
+				Сохранить
+			</AppButton>
+		</div>
 	</form>
 </template>
 
 <style lang="scss" scoped>
-.tx-form {
+.tx-edit-form {
 	display: flex;
 	flex-direction: column;
 	gap: var(--space-4);
@@ -145,6 +151,12 @@ const submit = handleSubmit(async (input) => {
 	&__error {
 		font-size: var(--font-size-sm);
 		color: var(--color-danger);
+	}
+
+	&__actions {
+		display: flex;
+		gap: var(--space-2);
+		justify-content: flex-end;
 	}
 }
 </style>

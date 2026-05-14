@@ -122,7 +122,7 @@
 -   [x] `entities/transaction/model/store.ts` — `useTransactionStore` (setup-стиль): `items`, `totalIncome`, `totalExpense`, `add`, `update`, `remove`.
 -   [x] `entities/transaction/api` — `list`, `create`, `update`, `delete` (MSW).
 -   [x] `features/add-transaction` — форма + валидация.
--   [ ] `features/edit-transaction`.
+-   [x] `features/edit-transaction`.
 -   [ ] `features/filter-transactions` — поиск с `useDebounce`, фильтр по типу/категории/дате.
 -   [ ] `widgets/TransactionList/TransactionList.vue` — список с `key=tx.id`, scoped slot для строки.
 -   [ ] `pages/TransactionsPage/TransactionsPage.vue` — фильтры + список + кнопка добавить.
