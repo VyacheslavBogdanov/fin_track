@@ -1,18 +1,13 @@
 // [Собес: TypeScript → interface vs type alias]
-// [Собес: TypeScript → literal union types (Currency, theme, locale)]
+// [Собес: TypeScript → literal union types (theme, locale)]
 
-export type Currency = 'RUB' | 'USD' | 'EUR' | 'GBP' | 'CNY';
+import type { BaseEntity } from '@/shared/types/entity';
+import type { Currency } from '@/shared/types/currency';
 
 export interface UserSettings {
 	theme: 'light' | 'dark';
 	locale: 'ru' | 'en';
 	notifications: boolean;
-}
-
-export interface BaseEntity {
-	id: string;
-	createdAt: string;
-	updatedAt: string;
 }
 
 export interface User extends BaseEntity {

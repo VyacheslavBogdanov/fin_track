@@ -3,8 +3,6 @@ export { authApi } from './api/authApi';
 export type {
 	User,
 	UserSettings,
-	Currency,
-	BaseEntity,
 	LoginInput,
 	RegisterInput,
 	AuthResponse,

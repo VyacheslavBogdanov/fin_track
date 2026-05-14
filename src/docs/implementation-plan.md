@@ -118,7 +118,7 @@
 
 ### 1.4. Транзакции — CRUD
 
--   [ ] `entities/transaction/model/types.ts` — `Transaction`, `TransactionType`.
+-   [x] `entities/transaction/model/types.ts` — `Transaction`, `TransactionType`.
 -   [ ] `entities/transaction/model/store.ts` — `useTransactionStore` (setup-стиль): `items`, `totalIncome`, `totalExpense`, `add`, `update`, `remove`.
 -   [ ] `entities/transaction/api` — `list`, `create`, `update`, `delete` (MSW).
 -   [ ] `features/add-transaction` — форма + валидация.
