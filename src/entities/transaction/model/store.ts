@@ -6,10 +6,7 @@
 
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { Transaction } from './types';
-
-export type TransactionInput = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
-export type TransactionPatch = Partial<Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>>;
+import type { Transaction, TransactionInput, TransactionPatch } from './types';
 
 export const useTransactionStore = defineStore('transaction', () => {
 	const items = ref<Transaction[]>([]);

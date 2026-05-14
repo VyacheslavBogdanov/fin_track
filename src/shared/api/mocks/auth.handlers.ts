@@ -158,10 +158,14 @@ function readRefreshTokenFromHeader(cookieHeader: string | null): string | null 
 	return null;
 }
 
-function readBearer(headers: Headers): string | null {
+export function readBearer(headers: Headers): string | null {
 	const auth = headers.get('Authorization');
 	if (!auth || !auth.startsWith('Bearer ')) return null;
 	return auth.slice('Bearer '.length);
+}
+
+export function getUserIdByAccessToken(token: string): string | null {
+	return accessTokens.get(token) ?? null;
 }
 
 export function resetMockState(): void {

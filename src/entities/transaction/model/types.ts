@@ -1,6 +1,7 @@
 // [Собес: TypeScript → interface extends (наследование от BaseEntity)]
 // [Собес: TypeScript → discriminated union (TransactionType)]
 // [Собес: TypeScript → optional properties (toAccountId?)]
+// [Собес: TypeScript → Omit/Partial utility types (DTO без serverside-полей)]
 
 import type { BaseEntity } from '@/shared/types/entity';
 import type { Currency } from '@/shared/types/currency';
@@ -19,3 +20,6 @@ export interface Transaction extends BaseEntity {
 	/** ID целевого счёта для type === 'transfer' */
 	toAccountId?: string;
 }
+
+export type TransactionInput = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
+export type TransactionPatch = Partial<Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>>;

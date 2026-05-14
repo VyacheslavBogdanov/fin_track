@@ -120,7 +120,7 @@
 
 -   [x] `entities/transaction/model/types.ts` — `Transaction`, `TransactionType`.
 -   [x] `entities/transaction/model/store.ts` — `useTransactionStore` (setup-стиль): `items`, `totalIncome`, `totalExpense`, `add`, `update`, `remove`.
--   [ ] `entities/transaction/api` — `list`, `create`, `update`, `delete` (MSW).
+-   [x] `entities/transaction/api` — `list`, `create`, `update`, `delete` (MSW).
 -   [ ] `features/add-transaction` — форма + валидация.
 -   [ ] `features/edit-transaction`.
 -   [ ] `features/filter-transactions` — поиск с `useDebounce`, фильтр по типу/категории/дате.
