@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import AppButton from '@/shared/ui/AppButton/AppButton.vue';
 import AppInput from '@/shared/ui/AppInput/AppInput.vue';
-import { useZodForm } from '../model/useZodForm';
+import { useZodForm } from '@/shared/composables/useZodForm';
 import { registerSchema, type RegisterFormInput } from '../model/schemas';
 import { useAuth } from '../model/useAuth';
 
