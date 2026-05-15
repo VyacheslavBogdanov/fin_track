@@ -24,6 +24,7 @@ withDefaults(
 					<span class="tx-list__amount" :class="`tx-list__amount--${tx.type}`">
 						{{ tx.type === 'expense' ? '−' : '+' }}{{ tx.amount }} {{ tx.currency }}
 					</span>
+					<slot name="actions" :tx="tx" />
 				</div>
 			</slot>
 		</li>
@@ -49,7 +50,7 @@ withDefaults(
 
 	&__default-row {
 		display: grid;
-		grid-template-columns: auto 1fr auto;
+		grid-template-columns: auto 1fr auto auto;
 		gap: var(--space-3);
 		align-items: center;
 	}

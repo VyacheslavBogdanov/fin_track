@@ -125,7 +125,7 @@
 -   [x] `features/edit-transaction`.
 -   [x] `features/filter-transactions` — поиск с `useDebounce`, фильтр по типу/категории/дате.
 -   [x] `widgets/TransactionList/TransactionList.vue` — список с `key=tx.id`, scoped slot для строки.
--   [ ] `pages/TransactionsPage/TransactionsPage.vue` — фильтры + список + кнопка добавить.
+-   [x] `pages/TransactionsPage/TransactionsPage.vue` — фильтры + список + кнопка добавить.
 -   [ ] Якоря: `JS → reduce`, `JS → замыкание (debounce)`, `Vue → key в v-for`, `Vue → computed`, `Vue → scoped slots`.
 -   [ ] Тесты: store `add/totalIncome` math, форма валидация, фильтр.
 
