@@ -123,7 +123,7 @@
 -   [x] `entities/transaction/api` — `list`, `create`, `update`, `delete` (MSW).
 -   [x] `features/add-transaction` — форма + валидация.
 -   [x] `features/edit-transaction`.
--   [ ] `features/filter-transactions` — поиск с `useDebounce`, фильтр по типу/категории/дате.
+-   [x] `features/filter-transactions` — поиск с `useDebounce`, фильтр по типу/категории/дате.
 -   [ ] `widgets/TransactionList/TransactionList.vue` — список с `key=tx.id`, scoped slot для строки.
 -   [ ] `pages/TransactionsPage/TransactionsPage.vue` — фильтры + список + кнопка добавить.
 -   [ ] Якоря: `JS → reduce`, `JS → замыкание (debounce)`, `Vue → key в v-for`, `Vue → computed`, `Vue → scoped slots`.
@@ -148,7 +148,7 @@
 
 ### 1.7. Composables-ядро
 
--   [ ] `shared/composables/useDebounce.ts` + якоря + тесты.
+-   [x] `shared/composables/useDebounce.ts` + якоря + тесты.
 -   [ ] `shared/composables/useFetch.ts` (`AbortController`, retry, типизация через generic) + якоря + тесты.
 -   [ ] `shared/composables/useLocalStorage.ts` (реактивная синхронизация с localStorage, обработка `storage` event) + якоря + тесты.
 -   [ ] `shared/composables/useClickOutside.ts` (+ директива `v-click-outside`).
