@@ -135,7 +135,7 @@
 -   [x] `entities/category/api`.
 -   [x] `widgets/CategoryList/CategoryList.vue` — плоский список (дерево — в Phase 2).
 -   [x] `pages/SettingsPage/CategoriesSection.vue` — CRUD категорий внутри настроек.
--   [ ] Якоря: `Vue → slots`, `JS → массивы (filter/map)`.
+-   [x] Якоря: `Vue → slots`, `JS → массивы (filter/map)`.
 
 ### 1.6. Дашборд (без графиков)
 
