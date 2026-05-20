@@ -131,7 +131,7 @@
 
 ### 1.5. Категории (плоский список)
 
--   [ ] `entities/category/model/types.ts`, `store.ts` (`useCategoryStore`).
+-   [x] `entities/category/model/types.ts`, `store.ts` (`useCategoryStore`).
 -   [ ] `entities/category/api`.
 -   [ ] `widgets/CategoryList/CategoryList.vue` — плоский список (дерево — в Phase 2).
 -   [ ] `pages/SettingsPage/CategoriesSection.vue` — CRUD категорий внутри настроек.
