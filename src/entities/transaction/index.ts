@@ -6,5 +6,6 @@ export type {
 	TransactionType,
 	TransactionInput,
 	TransactionPatch,
+	CategoryTotal,
 } from './model/types';
 export type { TransactionFormInput } from './model/schemas';

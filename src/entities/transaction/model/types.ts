@@ -23,3 +23,10 @@ export interface Transaction extends BaseEntity {
 
 export type TransactionInput = Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>;
 export type TransactionPatch = Partial<Omit<Transaction, 'id' | 'createdAt' | 'updatedAt'>>;
+
+/** Агрегат по категории — для дашборда (ТОП-N по сумме расходов). */
+export interface CategoryTotal {
+	categoryId: string;
+	total: number;
+	count: number;
+}

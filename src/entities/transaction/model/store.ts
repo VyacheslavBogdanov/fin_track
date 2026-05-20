@@ -3,11 +3,13 @@
 // [Собес: JS → reduce (агрегация totalIncome / totalExpense)]
 // [Собес: TypeScript → Omit/Partial (DTO без serverside-полей)]
 // [Собес: JS → async/await + try/catch в action (loading / success / error state-machine)]
+// [Собес: JS → Map (groupBy для агрегата ТОП-5 категорий)]
+// [Собес: JS → массивы (sort + slice для топ-N)]
 
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import { ApiHttpError, type AsyncStatus } from '@/shared/api';
-import type { Transaction, TransactionInput, TransactionPatch } from './types';
+import type { CategoryTotal, Transaction, TransactionInput, TransactionPatch } from './types';
 import { transactionApi } from '../api/transactionApi';
 
 export const useTransactionStore = defineStore('transaction', () => {
@@ -22,6 +24,36 @@ export const useTransactionStore = defineStore('transaction', () => {
 	const totalExpense = computed(() =>
 		items.value.filter((t) => t.type === 'expense').reduce((sum, t) => sum + t.amount, 0),
 	);
+
+	const balance = computed(() => totalIncome.value - totalExpense.value);
+
+	const expensesThisMonth = computed(() => {
+		const now = new Date();
+		const yyyy = now.getFullYear();
+		const mm = now.getMonth();
+		return items.value
+			.filter((t) => t.type === 'expense')
+			.filter((t) => {
+				const d = new Date(t.date);
+				return d.getFullYear() === yyyy && d.getMonth() === mm;
+			})
+			.reduce((sum, t) => sum + t.amount, 0);
+	});
+
+	const topExpenseCategories = computed<CategoryTotal[]>(() => {
+		const byCategory = new Map<string, { total: number; count: number }>();
+		for (const t of items.value) {
+			if (t.type !== 'expense') continue;
+			const acc = byCategory.get(t.categoryId) ?? { total: 0, count: 0 };
+			acc.total += t.amount;
+			acc.count += 1;
+			byCategory.set(t.categoryId, acc);
+		}
+		return [...byCategory.entries()]
+			.map(([categoryId, { total, count }]) => ({ categoryId, total, count }))
+			.sort((a, b) => b.total - a.total)
+			.slice(0, 5);
+	});
 
 	async function fetchAll(): Promise<void> {
 		status.value = 'loading';
@@ -65,6 +97,9 @@ export const useTransactionStore = defineStore('transaction', () => {
 		error,
 		totalIncome,
 		totalExpense,
+		balance,
+		expensesThisMonth,
+		topExpenseCategories,
 		fetchAll,
 		add,
 		update,

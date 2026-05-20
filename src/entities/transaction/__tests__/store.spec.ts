@@ -85,4 +85,45 @@ describe('useTransactionStore', () => {
 		expect(store.items[0]?.amount).toBe(250);
 		expect(store.totalExpense).toBe(250);
 	});
+
+	it('balance: totalIncome - totalExpense (transfer не влияет)', async () => {
+		const store = useTransactionStore();
+		await store.add(txInput({ type: 'income', amount: 1000 }));
+		await store.add(txInput({ type: 'expense', amount: 300 }));
+		await store.add(txInput({ type: 'transfer', amount: 500 }));
+
+		expect(store.balance).toBe(700);
+	});
+
+	it('expensesThisMonth: суммирует только expense текущего месяца', async () => {
+		const store = useTransactionStore();
+		const thisMonth = new Date().toISOString();
+		const lastMonth = new Date(
+			new Date().getFullYear(),
+			new Date().getMonth() - 1,
+			15,
+		).toISOString();
+
+		await store.add(txInput({ type: 'expense', amount: 100, date: thisMonth }));
+		await store.add(txInput({ type: 'expense', amount: 50, date: thisMonth }));
+		await store.add(txInput({ type: 'expense', amount: 999, date: lastMonth }));
+		await store.add(txInput({ type: 'income', amount: 500, date: thisMonth }));
+
+		expect(store.expensesThisMonth).toBe(150);
+	});
+
+	it('topExpenseCategories: сортировка по total desc, slice(0, 5), только expense', async () => {
+		const store = useTransactionStore();
+		await store.add(txInput({ type: 'expense', amount: 500, categoryId: 'food' }));
+		await store.add(txInput({ type: 'expense', amount: 200, categoryId: 'food' }));
+		await store.add(txInput({ type: 'expense', amount: 1000, categoryId: 'rent' }));
+		await store.add(txInput({ type: 'expense', amount: 50, categoryId: 'fun' }));
+		await store.add(txInput({ type: 'income', amount: 9999, categoryId: 'food' }));
+
+		const top = store.topExpenseCategories;
+		expect(top).toHaveLength(3);
+		expect(top[0]).toEqual({ categoryId: 'rent', total: 1000, count: 1 });
+		expect(top[1]).toEqual({ categoryId: 'food', total: 700, count: 2 });
+		expect(top[2]).toEqual({ categoryId: 'fun', total: 50, count: 1 });
+	});
 });

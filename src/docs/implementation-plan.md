@@ -139,7 +139,7 @@
 
 ### 1.6. Дашборд (без графиков)
 
--   [ ] `entities/transaction` → `computed` агрегаты (общий баланс, расходы за месяц, ТОП-5 категорий).
+-   [x] `entities/transaction` → `computed` агрегаты (общий баланс, расходы за месяц, ТОП-5 категорий).
 -   [ ] `widgets/BalanceCard`, `widgets/ExpenseSummary`, `widgets/RecentTransactions`.
 -   [ ] `pages/DashboardPage/DashboardPage.vue` — CSS Grid `auto-fit minmax(280px, 1fr)`.
 -   [ ] `KeepAlive` для дашборда при переходе на другие страницы.
