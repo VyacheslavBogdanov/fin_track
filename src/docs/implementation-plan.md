@@ -127,7 +127,7 @@
 -   [x] `widgets/TransactionList/TransactionList.vue` — список с `key=tx.id`, scoped slot для строки.
 -   [x] `pages/TransactionsPage/TransactionsPage.vue` — фильтры + список + кнопка добавить.
 -   [x] Якоря: `JS → reduce`, `JS → замыкание (debounce)`, `Vue → key в v-for`, `Vue → computed`, `Vue → scoped slots`.
--   [ ] Тесты: store `add/totalIncome` math, форма валидация, фильтр.
+-   [x] Тесты: store `add/totalIncome` math, форма валидация, фильтр.
 
 ### 1.5. Категории (плоский список)
 
