@@ -132,7 +132,7 @@
 ### 1.5. Категории (плоский список)
 
 -   [x] `entities/category/model/types.ts`, `store.ts` (`useCategoryStore`).
--   [ ] `entities/category/api`.
+-   [x] `entities/category/api`.
 -   [ ] `widgets/CategoryList/CategoryList.vue` — плоский список (дерево — в Phase 2).
 -   [ ] `pages/SettingsPage/CategoriesSection.vue` — CRUD категорий внутри настроек.
 -   [ ] Якоря: `Vue → slots`, `JS → массивы (filter/map)`.
